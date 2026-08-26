@@ -10,6 +10,7 @@ import type { IndustryId } from '@lieshoucloud/types';
 import { dwjkEdition } from './dwjk';
 import { genericEdition } from './generic';
 import { haizanEdition } from './haizan';
+import { huntercatEdition } from './huntercat';
 import { jmzzEdition } from './jmzz';
 import { layerEdition } from './layer';
 import { legalmindEdition } from './legalmind';
@@ -28,6 +29,7 @@ export const EDITIONS: Record<MiniEditionId, MiniEdition> = {
   legalmind: legalmindEdition,
   dwjk: dwjkEdition,
   haizan: haizanEdition,
+  huntercat: huntercatEdition,
 };
 
 /** 解析当前部署版别（TARO_APP_EDITION 注入 → generic） */
