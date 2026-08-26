@@ -1,0 +1,19 @@
+# Taro 编译产物
+/dist/
+dist-dev/
+
+# 微信开发者工具私有配置（含个人 appid，不进版本库）
+/project.private.config.json
+
+# Node / pnpm
+node_modules/
+.npm/
+
+# Testing
+coverage/
+
+# Misc
+.DS_Store
+*.log
+.env*.local
+.env
