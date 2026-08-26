@@ -6,7 +6,7 @@ import type { MiniEdition } from './types';
 
 export const genericEdition: MiniEdition = {
   id: 'generic',
-  brandName: '猎手云',
+  brandName: 'LieShouCloud',
   industries: [],
   hiddenMenus: [],
 };

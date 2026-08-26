@@ -6,7 +6,7 @@ import type { MiniEdition } from './types';
 
 export const layerEdition: MiniEdition = {
   id: 'layer',
-  brandName: '猎手云 · 法律版',
+  brandName: 'LieShouCloud · 法律版',
   industries: ['legal'],
   hiddenMenus: ['/pages/customers', '/pages/inventory', '/pages/finance', '/pages/approval'],
 };
