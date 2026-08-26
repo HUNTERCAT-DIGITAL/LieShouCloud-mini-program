@@ -16,16 +16,18 @@ import type { HealthStatus } from "@lieshoucloud/types";
  *   3. weapp 默认 → 现有公网 dev 栈域名（nginx `/api/*` → gateway，见
  *      deploy/bt-panel-nginx/dev.lieshoucloud.huntercat.cn.conf）
  */
+import { readEnv } from "@lieshoucloud/config";
+
 const DEFAULT_API_BASE = "https://dev.lieshoucloud.huntercat.cn";
 
-function resolveApiBase(): string {
-  const fromEnv = process.env.TARO_APP_API_BASE;
+function resolveBaseUrl(): string {
+  const fromEnv = readEnv("API_BASE", "taro");
   if (fromEnv) return fromEnv;
   return process.env.TARO_ENV === "h5" ? "" : DEFAULT_API_BASE;
 }
 
 /** 当前生效的 API 网关地址（模块加载时解析一次；导出便于测试 / 调试） */
-export const MINI_API_BASE = resolveApiBase();
+export const MINI_API_BASE = resolveBaseUrl();
 
 /** 启动时调用一次：让 @lieshoucloud/api-client 的 request() 拼出绝对网关地址 */
 export function configureApiBaseUrl(): void {
