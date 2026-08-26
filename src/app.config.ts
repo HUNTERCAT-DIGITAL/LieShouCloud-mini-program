@@ -1,10 +1,10 @@
 /**
  * 全局小程序配置.
  * pages 数组顺序 = 启动时默认首页.
- * 客户仓注入（legalmind）：prepare 生成 src/config/editions/legalmind.extra.ts
+ * 客户仓注入：prepare 生成 src/config/editions/extra.ts
  * 提供 EXTRA_PAGES（客户专属页面路径），此处展开。
  */
-import { EXTRA_PAGES } from "./config/editions/legalmind.extra";
+import { EXTRA_PAGES } from "./config/editions/extra";
 
 export default {
   pages: [
