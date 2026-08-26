@@ -10,6 +10,7 @@ import { countCustomers, listCustomers, STATUS_META, type Customer } from "../..
 import { useAuthStore } from "../../stores/auth";
 import { colors } from "../../theme/colors";
 import { getEdition, getEditionIndustries, isCapabilityEnabled, isEntryHidden } from "../../config/editions";
+import { EXTRA_ENTRIES } from "../../config/editions/extra";
 import type { IndustryId } from "@lieshoucloud/types";
 
 /** 通用快捷入口（所有版别基础；客户层可用 hiddenMenus 裁剪） */
@@ -157,6 +158,8 @@ export default function Workbench() {
               ...getEditionIndustries(edition)
                 .flatMap((i) => (INDUSTRY_ENTRIES[i] ?? []).filter((e) => isCapabilityEnabled(edition, i, e.capability)))
                 .filter((e) => !isEntryHidden(edition, e.url)),
+              // 客户专属入口（客户仓 extra.ts 槽位注入；独立仓库为空数组）
+              ...EXTRA_ENTRIES.filter((e) => !isEntryHidden(edition, e.url)),
             ];
             return visible.map((e) => (
               <View key={e.key} style={quickLinkStyle} onClick={() => Taro.navigateTo({ url: e.url })}>
