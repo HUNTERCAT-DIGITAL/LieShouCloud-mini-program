@@ -9,7 +9,7 @@ import { EmptyState, RoleBadge } from "../../components/MiniUI";
 import { countCustomers, listCustomers, STATUS_META, type Customer } from "../../services/customer";
 import { useAuthStore } from "../../stores/auth";
 import { colors } from "../../theme/colors";
-import { getEdition, getEditionIndustries, isEntryHidden } from "../../config/editions";
+import { getEdition, getEditionIndustries, isCapabilityEnabled, isEntryHidden } from "../../config/editions";
 import type { IndustryId } from "@lieshoucloud/types";
 
 /** 通用快捷入口（所有版别基础；客户层可用 hiddenMenus 裁剪） */
@@ -22,18 +22,20 @@ const BASE_ENTRIES = [
 ];
 
 /** 行业增强入口（edition.industries 派生；行业页面已回迁通用仓，2026-09） */
-const INDUSTRY_ENTRIES: Record<IndustryId, { key: string; label: string; url: string }[]> = {
+type IndustryEntry = { key: string; label: string; url: string; capability: string };
+
+const INDUSTRY_ENTRIES: Record<IndustryId, IndustryEntry[]> = {
   generic: [],
-  legal: [{ key: "legal-time", label: "⏱️ 计时", url: "/pages/legal/time/index" }],
+  legal: [{ key: "legal-time", label: "⏱️ 计时", url: "/pages/legal/time/index", capability: "legal/time" }],
   edu: [
-    { key: "edu-courses", label: "📚 课程", url: "/pages/edu/courses/index" },
-    { key: "edu-lessons", label: "🗓️ 课时", url: "/pages/edu/lessons/index" },
-    { key: "edu-children", label: "🧒 孩子", url: "/pages/edu/children/index" },
+    { key: "edu-courses", label: "📚 课程", url: "/pages/edu/courses/index", capability: "edu/courses" },
+    { key: "edu-lessons", label: "🗓️ 课时", url: "/pages/edu/lessons/index", capability: "edu/lessons" },
+    { key: "edu-children", label: "🧒 孩子", url: "/pages/edu/children/index", capability: "edu/children" },
   ],
   iot: [
-    { key: "iot-devices", label: "📡 设备", url: "/pages/iot/devices/index" },
-    { key: "iot-alerts", label: "🚨 告警", url: "/pages/iot/alerts/index" },
-    { key: "iot-overview", label: "🗺️ 总览", url: "/pages/iot/overview/index" },
+    { key: "iot-devices", label: "📡 设备", url: "/pages/iot/devices/index", capability: "iot/devices" },
+    { key: "iot-alerts", label: "🚨 告警", url: "/pages/iot/alerts/index", capability: "iot/alerts" },
+    { key: "iot-overview", label: "🗺️ 总览", url: "/pages/iot/overview/index", capability: "iot/overview" },
   ],
 };
 
@@ -153,7 +155,7 @@ export default function Workbench() {
             const visible = [
               ...BASE_ENTRIES.filter((e) => !isEntryHidden(edition, e.url)),
               ...getEditionIndustries(edition)
-                .flatMap((i) => INDUSTRY_ENTRIES[i] ?? [])
+                .flatMap((i) => (INDUSTRY_ENTRIES[i] ?? []).filter((e) => isCapabilityEnabled(edition, i, e.capability)))
                 .filter((e) => !isEntryHidden(edition, e.url)),
             ];
             return visible.map((e) => (

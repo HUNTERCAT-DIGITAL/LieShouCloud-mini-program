@@ -3,10 +3,13 @@
  */
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import type { MiniEdition } from '../editions';
 import {
   EDITIONS,
   editionFromTenant,
   getEditionIndustries,
+  getEnabledCapabilities,
+  isCapabilityEnabled,
   isEntryHidden,
   resolveEditionId,
 } from '../editions';
@@ -38,6 +41,25 @@ describe('入口裁剪（hiddenMenus 前缀匹配）', () => {
 
   it('generic 不裁剪基础入口', () => {
     expect(isEntryHidden(EDITIONS.generic, '/pages/customers/index')).toBe(false);
+  });
+});
+
+describe('能力组合（capabilities 模块级 · 跨行业）', () => {
+  it('未声明 capabilities → 行业全量（null）', () => {
+    expect(getEnabledCapabilities(EDITIONS.legalmind, 'legal')).toBeNull();
+    expect(isCapabilityEnabled(EDITIONS.legalmind, 'legal', 'legal/time')).toBe(true);
+  });
+
+  it('客户声明能力子集 → 精确组合（跨行业）', () => {
+    const custom: MiniEdition = {
+      id: 'legalmind',
+      brandName: '测试客户',
+      industries: ['legal', 'iot'],
+      capabilities: ['legal/cases', 'iot/devices'],
+    };
+    expect(getEnabledCapabilities(custom, 'legal')).toEqual(['legal/cases']);
+    expect(getEnabledCapabilities(custom, 'iot')).toEqual(['iot/devices']);
+    expect(isCapabilityEnabled(custom, 'legal', 'legal/time')).toBe(false);
   });
 });
 
