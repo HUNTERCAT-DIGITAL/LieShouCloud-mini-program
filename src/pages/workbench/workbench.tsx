@@ -9,6 +9,25 @@ import { EmptyState, RoleBadge } from "../../components/MiniUI";
 import { countCustomers, listCustomers, STATUS_META, type Customer } from "../../services/customer";
 import { useAuthStore } from "../../stores/auth";
 import { colors } from "../../theme/colors";
+import { getEdition, getEditionIndustries, isEntryHidden } from "../../config/editions";
+import type { IndustryId } from "@lieshoucloud/types";
+
+/** 通用快捷入口（所有版别基础；客户层可用 hiddenMenus 裁剪） */
+const BASE_ENTRIES = [
+  { key: "customers", label: "👥 客户", url: "/pages/customers/index" },
+  { key: "legal", label: "⚖️ 案件", url: "/pages/legal/index" },
+  { key: "inventory", label: "📦 库存", url: "/pages/inventory/inventory" },
+  { key: "finance", label: "💰 记账", url: "/pages/finance/finance" },
+  { key: "approval", label: "📋 审批", url: "/pages/approval/approval" },
+];
+
+/** 行业增强入口（edition.industries 派生；行业页面回迁通用仓后填充） */
+const INDUSTRY_ENTRIES: Record<IndustryId, { key: string; label: string; url: string }[]> = {
+  generic: [],
+  legal: [],
+  edu: [],
+  iot: [],
+};
 
 export default function Workbench() {
   const user = useAuthStore((s) => s.user);
@@ -120,22 +139,21 @@ export default function Workbench() {
         >
           <Text style={{ fontSize: "30rpx", fontWeight: 600, color: colors.text }}>快捷入口</Text>
         </View>
-        <View style={{ display: "flex", flexDirection: "row", gap: "16rpx" }}>
-          <View style={quickLinkStyle} onClick={() => Taro.navigateTo({ url: "/pages/customers/index" })}>
-            <Text style={{ color: colors.primary }}>👥 客户</Text>
-          </View>
-          <View style={quickLinkStyle} onClick={() => Taro.navigateTo({ url: "/pages/legal/index" })}>
-            <Text style={{ color: colors.primary }}>⚖️ 案件</Text>
-          </View>
-          <View style={quickLinkStyle} onClick={() => Taro.navigateTo({ url: "/pages/inventory/inventory" })}>
-            <Text style={{ color: colors.primary }}>📦 库存</Text>
-          </View>
-          <View style={quickLinkStyle} onClick={() => Taro.navigateTo({ url: "/pages/finance/finance" })}>
-            <Text style={{ color: colors.primary }}>💰 记账</Text>
-          </View>
-          <View style={quickLinkStyle} onClick={() => Taro.navigateTo({ url: "/pages/approval/approval" })}>
-            <Text style={{ color: colors.primary }}>📋 审批</Text>
-          </View>
+        <View style={{ display: "flex", flexDirection: "row", gap: "16rpx", flexWrap: "wrap" }}>
+          {(() => {
+            const edition = getEdition();
+            const visible = [
+              ...BASE_ENTRIES.filter((e) => !isEntryHidden(edition, e.url)),
+              ...getEditionIndustries(edition)
+                .flatMap((i) => INDUSTRY_ENTRIES[i] ?? [])
+                .filter((e) => !isEntryHidden(edition, e.url)),
+            ];
+            return visible.map((e) => (
+              <View key={e.key} style={quickLinkStyle} onClick={() => Taro.navigateTo({ url: e.url })}>
+                <Text style={{ color: colors.primary }}>{e.label}</Text>
+              </View>
+            ));
+          })()}
         </View>
       </View>
 
