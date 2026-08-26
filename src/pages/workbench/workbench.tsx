@@ -9,36 +9,16 @@ import { EmptyState, RoleBadge } from "../../components/MiniUI";
 import { countCustomers, listCustomers, STATUS_META, type Customer } from "../../services/customer";
 import { useAuthStore } from "../../stores/auth";
 import { colors } from "../../theme/colors";
-import { getEdition, getEditionIndustries, isCapabilityEnabled, isEntryHidden } from "../../config/editions";
+import { getEdition, isEntryHidden } from "../../config/editions";
 import { EXTRA_ENTRIES } from "../../config/editions/extra";
-import type { IndustryId } from "@lieshoucloud/types";
 
 /** 通用快捷入口（所有版别基础；客户层可用 hiddenMenus 裁剪） */
 const BASE_ENTRIES = [
   { key: "customers", label: "👥 客户", url: "/pages/customers/index" },
-  { key: "legal", label: "⚖️ 案件", url: "/pages/legal/index" },
   { key: "inventory", label: "📦 库存", url: "/pages/inventory/inventory" },
   { key: "finance", label: "💰 记账", url: "/pages/finance/finance" },
   { key: "approval", label: "📋 审批", url: "/pages/approval/approval" },
 ];
-
-/** 行业增强入口（edition.industries 派生；行业页面已回迁通用仓，2026-09） */
-type IndustryEntry = { key: string; label: string; url: string; capability: string };
-
-const INDUSTRY_ENTRIES: Record<IndustryId, IndustryEntry[]> = {
-  generic: [],
-  legal: [{ key: "legal-time", label: "⏱️ 计时", url: "/pages/legal/time/index", capability: "legal/time" }],
-  edu: [
-    { key: "edu-courses", label: "📚 课程", url: "/pages/edu/courses/index", capability: "edu/courses" },
-    { key: "edu-lessons", label: "🗓️ 课时", url: "/pages/edu/lessons/index", capability: "edu/lessons" },
-    { key: "edu-children", label: "🧒 孩子", url: "/pages/edu/children/index", capability: "edu/children" },
-  ],
-  iot: [
-    { key: "iot-devices", label: "📡 设备", url: "/pages/iot/devices/index", capability: "iot/devices" },
-    { key: "iot-alerts", label: "🚨 告警", url: "/pages/iot/alerts/index", capability: "iot/alerts" },
-    { key: "iot-overview", label: "🗺️ 总览", url: "/pages/iot/overview/index", capability: "iot/overview" },
-  ],
-};
 
 export default function Workbench() {
   const user = useAuthStore((s) => s.user);
@@ -155,9 +135,6 @@ export default function Workbench() {
             const edition = getEdition();
             const visible = [
               ...BASE_ENTRIES.filter((e) => !isEntryHidden(edition, e.url)),
-              ...getEditionIndustries(edition)
-                .flatMap((i) => (INDUSTRY_ENTRIES[i] ?? []).filter((e) => isCapabilityEnabled(edition, i, e.capability)))
-                .filter((e) => !isEntryHidden(edition, e.url)),
               // 客户专属入口（客户仓 extra.ts 槽位注入；独立仓库为空数组）
               ...EXTRA_ENTRIES.filter((e) => !isEntryHidden(edition, e.url)),
             ];

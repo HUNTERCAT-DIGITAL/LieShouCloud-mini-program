@@ -55,6 +55,7 @@ export default {
       include: [
         resolve(monorepoRoot, "open/api-client/src"),
         resolve(monorepoRoot, "open/types/src"),
+        resolve(monorepoRoot, "open/config/src"),
       ],
     },
   },
