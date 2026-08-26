@@ -21,12 +21,20 @@ const BASE_ENTRIES = [
   { key: "approval", label: "📋 审批", url: "/pages/approval/approval" },
 ];
 
-/** 行业增强入口（edition.industries 派生；行业页面回迁通用仓后填充） */
+/** 行业增强入口（edition.industries 派生；行业页面已回迁通用仓，2026-09） */
 const INDUSTRY_ENTRIES: Record<IndustryId, { key: string; label: string; url: string }[]> = {
   generic: [],
-  legal: [],
-  edu: [],
-  iot: [],
+  legal: [{ key: "legal-time", label: "⏱️ 计时", url: "/pages/legal/time/index" }],
+  edu: [
+    { key: "edu-courses", label: "📚 课程", url: "/pages/edu/courses/index" },
+    { key: "edu-lessons", label: "🗓️ 课时", url: "/pages/edu/lessons/index" },
+    { key: "edu-children", label: "🧒 孩子", url: "/pages/edu/children/index" },
+  ],
+  iot: [
+    { key: "iot-devices", label: "📡 设备", url: "/pages/iot/devices/index" },
+    { key: "iot-alerts", label: "🚨 告警", url: "/pages/iot/alerts/index" },
+    { key: "iot-overview", label: "🗺️ 总览", url: "/pages/iot/overview/index" },
+  ],
 };
 
 export default function Workbench() {

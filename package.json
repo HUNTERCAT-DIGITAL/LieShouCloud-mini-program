@@ -24,7 +24,10 @@
     "@tarojs/taro": "4.0.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "zustand": "5.0.2"
+    "zustand": "5.0.2",
+    "@lieshoucloud/industry-edu": "workspace:*",
+    "@lieshoucloud/industry-iot": "workspace:*",
+    "@lieshoucloud/industry-legal": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.25.0",
