@@ -15,8 +15,8 @@ const monorepoRoot = projectRoot; // 独立仓库：根即 monorepo 根（open/ 
 
 const alias = {
   "@": resolve(projectRoot, "src"),
-  "@lieshoucloud/api-client": resolve(monorepoRoot, "open/packages/api-client/src"),
-  "@lieshoucloud/types": resolve(monorepoRoot, "open/packages/types/src"),
+  "@lieshoucloud/api-client": resolve(monorepoRoot, "open/api-client/src"),
+  "@lieshoucloud/types": resolve(monorepoRoot, "open/types/src"),
 };
 
 export default {
@@ -53,8 +53,8 @@ export default {
   mini: {
     compile: {
       include: [
-        resolve(monorepoRoot, "open/packages/api-client/src"),
-        resolve(monorepoRoot, "open/packages/types/src"),
+        resolve(monorepoRoot, "open/api-client/src"),
+        resolve(monorepoRoot, "open/types/src"),
       ],
     },
   },
