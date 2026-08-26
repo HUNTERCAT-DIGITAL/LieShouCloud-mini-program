@@ -48,4 +48,3 @@ export async function fetchGatewayHealth(): Promise<HealthStatus> {
   }
 }
 
-export const __PLACEHOLDER_MINI_API__ = true;
