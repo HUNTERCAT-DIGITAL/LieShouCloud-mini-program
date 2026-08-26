@@ -11,6 +11,7 @@ import { dwjkEdition } from './dwjk';
 import { genericEdition } from './generic';
 import { haizanEdition } from './haizan';
 import { huntercatEdition } from './huntercat';
+import { hekerenEdition } from './hekeren';
 import { linkesecurityEdition } from './linkesecurity';
 import { jmzzEdition } from './jmzz';
 import { layerEdition } from './layer';
@@ -32,6 +33,7 @@ export const EDITIONS: Record<MiniEditionId, MiniEdition> = {
   haizan: haizanEdition,
   huntercat: huntercatEdition,
   linkesecurity: linkesecurityEdition,
+  hekeren: hekerenEdition,
 };
 
 /** 解析当前部署版别（TARO_APP_EDITION 注入 → generic） */
