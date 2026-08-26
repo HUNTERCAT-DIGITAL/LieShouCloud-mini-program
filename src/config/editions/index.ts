@@ -9,6 +9,7 @@ import type { IndustryId } from '@lieshoucloud/types';
 
 import { dwjkEdition } from './dwjk';
 import { genericEdition } from './generic';
+import { haizanEdition } from './haizan';
 import { jmzzEdition } from './jmzz';
 import { layerEdition } from './layer';
 import { legalmindEdition } from './legalmind';
@@ -26,12 +27,21 @@ export const EDITIONS: Record<MiniEditionId, MiniEdition> = {
   jmzz: jmzzEdition,
   legalmind: legalmindEdition,
   dwjk: dwjkEdition,
+  haizan: haizanEdition,
 };
 
 /** 解析当前部署版别（TARO_APP_EDITION 注入 → generic） */
 export function resolveEditionId(): MiniEditionId {
   const v = process.env[EDITION_ENV_KEY] as string | undefined;
   if (v && v in EDITIONS) return v as MiniEditionId;
+  return 'generic';
+}
+
+/** 域名推断（h5 部署兜底）：haizan.* → haizan */
+export function resolveEditionFromHostname(host: string): MiniEditionId {
+  if (host.startsWith('haizan.')) return 'haizan';
+  if (host.startsWith('legalmind.')) return 'legalmind';
+  if (host.startsWith('zhiye.')) return 'zhiye';
   return 'generic';
 }
 

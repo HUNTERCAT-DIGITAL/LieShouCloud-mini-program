@@ -4,7 +4,7 @@
  */
 import type { IndustryId } from '@lieshoucloud/types';
 
-export type MiniEditionId = 'generic' | 'layer' | 'zhiye' | 'jmzz' | 'legalmind' | 'dwjk';
+export type MiniEditionId = 'generic' | 'layer' | 'zhiye' | 'jmzz' | 'legalmind' | 'dwjk' | 'haizan';
 
 export interface MiniEdition {
   id: MiniEditionId;
