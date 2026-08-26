@@ -5,8 +5,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@lieshoucloud/api-client": ["../../services/core/packages/api-client/src"],
-      "@lieshoucloud/types": ["../../services/core/packages/types/src"]
+      "@lieshoucloud/api-client": ["./open/packages/api-client/src"],
+      "@lieshoucloud/types": ["./open/packages/types/src"]
     },
     "jsx": "react-jsx",
     "module": "ESNext",
