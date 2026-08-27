@@ -1,6 +1,7 @@
 /**
  * 客户仓注入槽位（客户聚合仓模式 · 2026-09）.
  * 独立仓库：占位（空）；客户仓 deploy:prepare 会覆盖本文件注入：
+ *  - EXTRA_HOME：客户启动页（优先于默认登录页，对外内容页/品牌首页）
  *  - EXTRA_PAGES：客户专属页面路径（app.config 展开注册）
  *  - EXTRA_ENTRIES：客户工作台快捷入口（workbench 渲染）
  * 注：Taro(webpack5) 不支持 import.meta.glob，故采用单一槽位文件；
@@ -16,5 +17,8 @@ export interface ClientEntry {
 }
 
 export const EXTRA_PAGES: string[] = [];
+
+/** 客户启动页（对外品牌/内容首页，优先于默认登录页） */
+export const EXTRA_HOME: string | undefined = undefined;
 
 export const EXTRA_ENTRIES: ClientEntry[] = [];
