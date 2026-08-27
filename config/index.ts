@@ -68,11 +68,12 @@ export default defineConfig({
     alias,
   },
   cache: { enable: false },
-  // 客户聚合仓模式（2026-09）：webpack-chain 直接设置客户包 resolve.alias
-  // （compilerOptions.alias 对子路径 import 不生效，此处必生效；独立仓库无客户包则空转）
+  // 客户聚合仓模式（2026-09）：webpack-chain 直接设置 resolve.alias（必生效）.
+  // 覆盖全部 alias（共享包 + 客户包）：compilerOptions.alias 未进 webpack 时，
+  // 客户包内 import 会走自身 node_modules 软链（客户仓顶层共享仓，不在本端 compile.include）导致 ModuleParseError。
   mini: {
     webpackChain(chain) {
-      for (const [name, src] of Object.entries(clientAlias)) {
+      for (const [name, src] of Object.entries(alias)) {
         chain.resolve.alias.set(name, src);
       }
     },
