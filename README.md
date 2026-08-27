@@ -17,7 +17,7 @@
 ## 快速开始
 
 ```bash
-git clone git@github.com:HUNTERCAT-DIGITAL/lieshou-cloud-mini-program.git
+git clone git@github.com:HUNTERCAT-DIGITAL/lieshou-mini-program.git
 git submodule update --init --recursive   # 拉 open/(lieshou-cloud-web 共享包)
 pnpm install
 pnpm dev:weapp                            # 输出 dist/,微信开发者工具打开
