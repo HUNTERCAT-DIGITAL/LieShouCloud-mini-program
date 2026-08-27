@@ -19,3 +19,4 @@ coverage/
 .env
 # LieShouBoot prepare.mjs 生成的薄壳页（勿提交）
 src/pages/boot/
+.swc/

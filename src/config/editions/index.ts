@@ -22,7 +22,11 @@ export const EDITIONS: Record<MiniEditionId, MiniEdition> = {
 
 /** 解析当前部署版别（TARO_APP_EDITION 注入 → generic） */
 export function resolveEditionId(): MiniEditionId {
-  const v = process.env[EDITION_ENV_KEY] as string | undefined;
+  // 注意：动态键 process.env[..] 不会被 Taro 编译期替换，且小程序端无 process 全局
+  const v =
+    typeof process !== "undefined" && process.env
+      ? (process.env[EDITION_ENV_KEY] as string | undefined)
+      : undefined;
   if (v && v in EDITIONS) return v as MiniEditionId;
   return 'generic';
 }

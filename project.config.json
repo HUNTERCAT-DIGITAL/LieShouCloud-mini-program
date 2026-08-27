@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "lieshoucloud-mini-program",
   "description": "LieShou Cloud WeChat Mini Program (Taro 4 + React) skeleton",
-  "appid": "touristappid",
+  "appid": "wx8e6d72c91e6995f5",
   "setting": {
     "urlCheck": true,
     "es6": false,
@@ -34,9 +34,21 @@
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
-    "minifyWXSS": true
+    "minifyWXSS": true,
+    "compileWorklet": false,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "useCompilerPlugins": false,
+    "condition": false
   },
   "compileType": "miniprogram",
   "libVersion": "3.4.0",
-  "condition": {}
+  "condition": {},
+  "simulatorPluginLibVersion": {},
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "editorSetting": {}
 }

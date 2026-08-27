@@ -5,8 +5,6 @@ module.exports = {
       {
         framework: 'react',
         ts: true,
-        useBuiltIns: 'usage',
-        targets: { ios: '12', android: '5' },
       },
     ],
   ],

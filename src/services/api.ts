@@ -23,7 +23,10 @@ const DEFAULT_API_BASE = "https://dev.lieshoucloud.huntercat.cn";
 function resolveBaseUrl(): string {
   const fromEnv = readEnv("API_BASE", "taro");
   if (fromEnv) return fromEnv;
-  return process.env.TARO_ENV === "h5" ? "" : DEFAULT_API_BASE;
+  // 注意：小程序端无 process 全局，必须防御式访问（Taro 编译期不保证替换）
+  const isH5 =
+    typeof process !== "undefined" && process.env?.TARO_ENV === "h5";
+  return isH5 ? "" : DEFAULT_API_BASE;
 }
 
 /** 当前生效的 API 网关地址（模块加载时解析一次；导出便于测试 / 调试） */

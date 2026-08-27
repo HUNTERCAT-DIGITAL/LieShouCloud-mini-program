@@ -10,6 +10,7 @@
  */
 import { existsSync, readdirSync, statSync } from "fs";
 import { resolve } from "path";
+import { defineConfig } from "@tarojs/cli";
 
 const projectRoot = resolve(__dirname, "..");
 const monorepoRoot = projectRoot; // 独立仓库：根即 monorepo 根（open/ submodule）
@@ -39,7 +40,7 @@ const alias = {
   ...clientAlias,
 };
 
-export default {
+export default defineConfig({
   projectName: "lieshoucloud-mini-program",
   date: "2026-1-22",
   designWidth: 750,
@@ -101,4 +102,4 @@ export default {
     },
     devServer: { port: 10086, host: "0.0.0.0", open: false },
   },
-};
+});
