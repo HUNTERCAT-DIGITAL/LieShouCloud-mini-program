@@ -1,4 +1,4 @@
-# LieShouCloud-mini-program · 猎手云微信小程序(开源)
+# lieshou-cloud-mini-program · 猎手云微信小程序(开源)
 
 > 猎手云(开源)的微信小程序端:Taro 4 + React 18,承载登录 / 工作台 / 客户 / 库存 / 财务 / 审批等通用业务。
 > 行业能力与客户定制通过 **Edition 配置 + 客户仓注入**(`extra.ts` 槽位)装配,不在本仓内。
@@ -12,13 +12,13 @@
 ## 技术栈
 
 - Taro 4(React 18 + TypeScript)+ pnpm workspace
-- 共享层 `@lieshoucloud/{api-client,config,types}` 经 `open/` submodule 挂载 [LieShouCloud-web](https://github.com/HUNTERCAT-DIGITAL/LieShouCloud-web)
+- 共享层 `@lieshoucloud/{api-client,config,types}` 经 `open/` submodule 挂载 [lieshou-cloud-web](https://github.com/HUNTERCAT-DIGITAL/lieshou-cloud-web)
 
 ## 快速开始
 
 ```bash
-git clone git@github.com:HUNTERCAT-DIGITAL/LieShouCloud-mini-program.git
-git submodule update --init --recursive   # 拉 open/(LieShouCloud-web 共享包)
+git clone git@github.com:HUNTERCAT-DIGITAL/lieshou-cloud-mini-program.git
+git submodule update --init --recursive   # 拉 open/(lieshou-cloud-web 共享包)
 pnpm install
 pnpm dev:weapp                            # 输出 dist/,微信开发者工具打开
 pnpm dev:h5                               # H5 预览
@@ -45,10 +45,10 @@ pnpm dev:h5                               # H5 预览
 
 ## 关联仓库
 
-- 共享层(开源):`HUNTERCAT-DIGITAL/LieShouCloud-web`
-- 后端底座(开源):`HUNTERCAT-DIGITAL/LieShouCloud`
-- 其他端(开源):`LieShouCloud-admin-web` · `LieShouCloud-desktop` · `LieShouCloud-mobile`
-- 商业主仓:`HUNTERCAT-DIGITAL/LieShouCloudPro`
+- 共享层(开源):`HUNTERCAT-DIGITAL/lieshou-cloud-web`
+- 后端底座(开源):`HUNTERCAT-DIGITAL/lieshou-cloud`
+- 其他端(开源):`lieshou-cloud-admin-web` · `lieshou-cloud-desktop` · `lieshou-cloud-mobile`
+- 商业主仓:`HUNTERCAT-DIGITAL/lieshou-cloud-pro`
 
 ## License
 
