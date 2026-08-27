@@ -24,7 +24,9 @@ if (existsSync(clientRoot)) {
   for (const name of readdirSync(clientRoot)) {
     if (!statSync(resolve(clientRoot, name)).isDirectory()) continue;
     const src = resolve(clientRoot, name, "src");
+    // 精确 + 子路径通配（webpack alias：key 以 * 结尾 = 前缀匹配，value 的 * 展开）
     clientAlias[`@lieshoucloud/${name}`] = src;
+    clientAlias[`@lieshoucloud/${name}/*`] = `${src}/*`;
     clientIncludes.push(src);
   }
 }
@@ -65,10 +67,14 @@ export default {
     alias,
   },
   cache: { enable: false },
-  // monorepo: workspace 共享包（api-client / types）main 指向 TS 源码，
-  // 不在 sourceDir 内 —— 必须显式加进 babel-loader 的 include（Taro 官方 monorepo 机制）。
-  // 否则 webpack 报 ModuleParseError: no loaders configured for .ts
+  // 客户聚合仓模式（2026-09）：webpack-chain 直接设置客户包 resolve.alias
+  // （compilerOptions.alias 对子路径 import 不生效，此处必生效；独立仓库无客户包则空转）
   mini: {
+    webpackChain(chain) {
+      for (const [name, src] of Object.entries(clientAlias)) {
+        chain.resolve.alias.set(name, src);
+      }
+    },
     compile: {
       include: [
         resolve(monorepoRoot, "open/contract-api/src"),
