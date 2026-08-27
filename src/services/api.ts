@@ -1,5 +1,6 @@
 import { setBaseUrl } from "@lieshoucloud/contract-api";
 import type { HealthStatus } from "@lieshoucloud/contract-types";
+import { request } from "@tarojs/taro";
 
 /**
  * 小程序 API 网关地址解析（Phase 9 · 多端真实化 + 配置化）.
@@ -43,8 +44,8 @@ export function configureApiBaseUrl(): void {
  */
 export async function fetchGatewayHealth(): Promise<HealthStatus> {
   try {
-    const res = await fetch(`${MINI_API_BASE}/actuator/health`);
-    const data = (await res.json()) as { status: HealthStatus };
+    const res = await request({ url: `${MINI_API_BASE}/actuator/health` });
+    const data = res.data as { status: HealthStatus };
     return data.status;
   } catch {
     return "down";

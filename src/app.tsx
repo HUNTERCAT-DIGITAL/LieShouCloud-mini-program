@@ -7,10 +7,10 @@
  * @see https://docs.taro.zone/docs/react-entry
  */
 import type { PropsWithChildren } from "react";
-import { useLaunch, getStorageSync, setStorageSync, removeStorageSync, navigateTo, redirectTo, showToast } from "@tarojs/taro";
+import { useLaunch, getStorageSync, setStorageSync, removeStorageSync, navigateTo, redirectTo, showToast, request } from "@tarojs/taro";
 import { configureCore } from "@lieshoucloud/core-web";
 
-import { configureApiBaseUrl } from "./services/api";
+import { MINI_API_BASE, configureApiBaseUrl } from "./services/api";
 
 // —— 注入 core-web 端口（业务核心层 · 2026-09 铺开）——
 configureCore({
@@ -26,6 +26,31 @@ configureCore({
   navigation: {
     to: (p) => navigateTo({ url: p }),
     replace: (p) => redirectTo({ url: p }),
+  },
+  // HTTP 传输：小程序无标准 fetch，走 Taro.request 桥接（core-web 业务请求统一经此）
+  api: {
+    request: async (path, init) => {
+      const method = (init?.method ?? "GET").toUpperCase() as
+        | "GET"
+        | "POST"
+        | "PUT"
+        | "DELETE"
+        | "PATCH";
+      const res = await request({
+        url: `${MINI_API_BASE}${path}`,
+        method,
+        data:
+          init?.body && typeof init?.body === "string"
+            ? JSON.parse(init.body)
+            : init?.body,
+        header: (init?.headers ?? {}) as Record<string, string>,
+      });
+      if (res.statusCode >= 400) {
+        const body = (res.data ?? {}) as { message?: string; error?: string };
+        throw new Error(body.message || body.error || `请求失败 HTTP ${res.statusCode}`);
+      }
+      return res.data;
+    },
   },
 });
 
