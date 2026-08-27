@@ -17,6 +17,7 @@ const alias = {
   "@": resolve(projectRoot, "src"),
   "@lieshoucloud/contract-api": resolve(monorepoRoot, "open/contract-api/src"),
   "@lieshoucloud/contract-types": resolve(monorepoRoot, "open/contract-types/src"),
+  "@lieshoucloud/core-web": resolve(monorepoRoot, "open/core-web/src"),
 };
 
 export default {
