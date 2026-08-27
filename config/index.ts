@@ -8,16 +8,33 @@
  *
  * @see .ai/decisions/0014-mini-program.md
  */
+import { existsSync, readdirSync, statSync } from "fs";
 import { resolve } from "path";
 
 const projectRoot = resolve(__dirname, "..");
 const monorepoRoot = projectRoot; // 独立仓库：根即 monorepo 根（open/ submodule）
+
+// 客户聚合仓模式（2026-09）：客户仓 packages/<client> → @lieshoucloud/<client>
+// 对齐 admin-web vite / mobile Metro 客户包兜底；独立仓库（无 ../packages）跳过，行为不变。
+// webpack alias 无 $ 后缀 = 前缀匹配，子路径（@lieshoucloud/legalmind/api）自动拼接。
+const clientRoot = resolve(monorepoRoot, "../packages");
+const clientAlias: Record<string, string> = {};
+const clientIncludes: string[] = [];
+if (existsSync(clientRoot)) {
+  for (const name of readdirSync(clientRoot)) {
+    if (!statSync(resolve(clientRoot, name)).isDirectory()) continue;
+    const src = resolve(clientRoot, name, "src");
+    clientAlias[`@lieshoucloud/${name}`] = src;
+    clientIncludes.push(src);
+  }
+}
 
 const alias = {
   "@": resolve(projectRoot, "src"),
   "@lieshoucloud/contract-api": resolve(monorepoRoot, "open/contract-api/src"),
   "@lieshoucloud/contract-types": resolve(monorepoRoot, "open/contract-types/src"),
   "@lieshoucloud/core-web": resolve(monorepoRoot, "open/core-web/src"),
+  ...clientAlias,
 };
 
 export default {
@@ -58,6 +75,7 @@ export default {
         resolve(monorepoRoot, "open/contract-types/src"),
         resolve(monorepoRoot, "open/contract-config/src"),
         resolve(monorepoRoot, "open/core-web/src"),
+        ...clientIncludes,
       ],
     },
   },
