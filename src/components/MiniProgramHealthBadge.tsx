@@ -1,5 +1,5 @@
 import { View, Text } from "@tarojs/components";
-import type { HealthStatus } from "@lieshoucloud/types";
+import type { HealthStatus } from "@lieshoucloud/contract-types";
 
 const COLORS: Record<HealthStatus, string> = {
   up: "#52c41a",

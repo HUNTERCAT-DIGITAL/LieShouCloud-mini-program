@@ -1,7 +1,7 @@
 /**
  * 小程序 approval service（ADR-0032 · 审批流，多端接入）.
  */
-import { request } from "@lieshoucloud/api-client";
+import { request } from "@lieshoucloud/contract-api";
 
 export type ApprovalType = "EXPENSE" | "PURCHASE" | "SALE" | "OTHER";
 export type ApprovalStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";

@@ -8,8 +8,8 @@ import { create } from "zustand";
 import { persist, createJSONStorage, type StateStorage } from "zustand/middleware";
 import Taro from "@tarojs/taro";
 
-import { setAccessTokenProvider } from "@lieshoucloud/api-client";
-import type { CurrentUser } from "@lieshoucloud/types";
+import { setAccessTokenProvider } from "@lieshoucloud/contract-api";
+import type { CurrentUser } from "@lieshoucloud/contract-types";
 import { fetchCurrentUser, login as loginApi } from "../services/auth";
 
 const STORAGE_KEY = "lieshoucloud:mini-auth";

@@ -1,7 +1,7 @@
 /**
  * Mini-program api 配置 + 健康检查单测（Phase 9 · 配置化补测）.
  *
- * 注意：本文件**不** mock @lieshoucloud/api-client —— api.ts 需要真实 setBaseUrl
+ * 注意：本文件**不** mock @lieshoucloud/contract-api —— api.ts 需要真实 setBaseUrl
  * 验证 configureApiBaseUrl 装配（与 customer/business 测试的 mock 策略相反）。
  */
 import { afterEach, describe, expect, it, vi } from "vitest";

@@ -1,7 +1,7 @@
 /**
  * 小程序 inventory service（Phase 9 · 多端接入）.
  */
-import { request } from "@lieshoucloud/api-client";
+import { request } from "@lieshoucloud/contract-api";
 
 export type StockMovementType = "IN" | "OUT";
 

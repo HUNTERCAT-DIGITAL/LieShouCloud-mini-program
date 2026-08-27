@@ -1,5 +1,5 @@
-import { setBaseUrl } from "@lieshoucloud/api-client";
-import type { HealthStatus } from "@lieshoucloud/types";
+import { setBaseUrl } from "@lieshoucloud/contract-api";
+import type { HealthStatus } from "@lieshoucloud/contract-types";
 
 /**
  * 小程序 API 网关地址解析（Phase 9 · 多端真实化 + 配置化）.
@@ -16,7 +16,7 @@ import type { HealthStatus } from "@lieshoucloud/types";
  *   3. weapp 默认 → 现有公网 dev 栈域名（nginx `/api/*` → gateway，见
  *      deploy/bt-panel-nginx/dev.lieshoucloud.huntercat.cn.conf）
  */
-import { readEnv } from "@lieshoucloud/config";
+import { readEnv } from "@lieshoucloud/contract-config";
 
 const DEFAULT_API_BASE = "https://dev.lieshoucloud.huntercat.cn";
 
@@ -29,7 +29,7 @@ function resolveBaseUrl(): string {
 /** 当前生效的 API 网关地址（模块加载时解析一次；导出便于测试 / 调试） */
 export const MINI_API_BASE = resolveBaseUrl();
 
-/** 启动时调用一次：让 @lieshoucloud/api-client 的 request() 拼出绝对网关地址 */
+/** 启动时调用一次：让 @lieshoucloud/contract-api 的 request() 拼出绝对网关地址 */
 export function configureApiBaseUrl(): void {
   setBaseUrl(MINI_API_BASE);
 }

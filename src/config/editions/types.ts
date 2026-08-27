@@ -2,7 +2,7 @@
  * Mini-program 版别（Edition）类型 · 客户层（与行业层解耦，2026-09）.
  * 精简版：端侧只关心品牌 / 启用的行业能力 / 菜单裁剪。
  */
-import type { IndustryId } from '@lieshoucloud/types';
+import type { IndustryId } from '@lieshoucloud/contract-types';
 
 export type MiniEditionId = 'generic' | 'layer';
 

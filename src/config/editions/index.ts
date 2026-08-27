@@ -5,7 +5,7 @@
  *   → 默认 generic；登录后 tenantEdition（后端权威）兜底品牌展示。
  * - 装配：行业入口显隐由 edition.industries 派生；hiddenMenus 做客户级裁剪。
  */
-import type { IndustryId } from '@lieshoucloud/types';
+import type { IndustryId } from '@lieshoucloud/contract-types';
 
 import { genericEdition } from './generic';
 import { layerEdition } from './layer';

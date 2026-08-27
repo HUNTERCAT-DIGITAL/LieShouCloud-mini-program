@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const { mockRequest } = vi.hoisted(() => ({ mockRequest: vi.fn() }));
 
-vi.mock("@lieshoucloud/api-client", () => ({ request: mockRequest }));
+vi.mock("@lieshoucloud/contract-api", () => ({ request: mockRequest }));
 
 import { LEDGER_CATEGORIES, createLedger, getSummary, listLedger } from "./finance";
 import { MOVEMENT_META, listProducts, stockIn, stockOut } from "./inventory";
