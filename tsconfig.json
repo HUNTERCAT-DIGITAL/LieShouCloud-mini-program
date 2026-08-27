@@ -1,16 +1,33 @@
 {
   "extends": "@lieshoucloud/contract-config/tsconfig.base.json",
   "compilerOptions": {
-    "types": ["@tarojs/taro", "react", "node"],
+    "types": [
+      "@tarojs/taro",
+      "react",
+      "node"
+    ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@lieshoucloud/contract-api": ["./open/contract-api/src"],
-      "@lieshoucloud/contract-types": ["./open/contract-types/src"]
+      "@/*": [
+        "src/*"
+      ],
+      "@lieshoucloud/contract-api": [
+        "./open/contract-api/src"
+      ],
+      "@lieshoucloud/contract-types": [
+        "./open/contract-types/src"
+      ],
+      "@lieshoucloud/core-web/*": [
+        "open/core-web/src/*"
+      ]
     },
     "jsx": "react-jsx",
     "module": "ESNext",
     "moduleResolution": "bundler"
   },
-  "include": ["src", "config", "types"]
+  "include": [
+    "src",
+    "config",
+    "types"
+  ]
 }

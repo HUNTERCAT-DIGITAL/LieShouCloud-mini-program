@@ -57,6 +57,7 @@ export default {
         resolve(monorepoRoot, "open/contract-api/src"),
         resolve(monorepoRoot, "open/contract-types/src"),
         resolve(monorepoRoot, "open/contract-config/src"),
+        resolve(monorepoRoot, "open/core-web/src"),
       ],
     },
   },
