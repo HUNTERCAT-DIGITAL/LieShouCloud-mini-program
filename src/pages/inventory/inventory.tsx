@@ -10,6 +10,8 @@ import { EmptyState, StatusBadge } from "../../components/MiniUI";
 import { createProduct, listProducts, MOVEMENT_META, stockIn, stockOut, type Product } from "../../services/inventory";
 import { colors } from "../../theme/colors";
 
+import "./inventory.css";
+
 export default function Inventory() {
   const [products, setProducts] = useState<Product[]>([]);
   const [stockProduct, setStockProduct] = useState<Product | null>(null);

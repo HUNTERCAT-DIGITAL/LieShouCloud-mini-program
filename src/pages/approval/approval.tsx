@@ -31,6 +31,8 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: "all", label: "全部" },
 ];
 
+import "./approval.css";
+
 export default function Approval() {
   const user = useAuthStore((s) => s.user);
   const userId = user?.userId;

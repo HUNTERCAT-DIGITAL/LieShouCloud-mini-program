@@ -18,6 +18,8 @@ import {
 } from "../../services/finance";
 import { colors } from "../../theme/colors";
 
+import "./finance.css";
+
 export default function Finance() {
   const [entries, setEntries] = useState<LedgerEntry[]>([]);
   const [summary, setSummary] = useState<LedgerSummary>({ income: 0, expense: 0, balance: 0, count: 0 });

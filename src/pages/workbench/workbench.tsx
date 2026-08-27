@@ -20,6 +20,8 @@ const BASE_ENTRIES = [
   { key: "approval", label: "📋 审批", url: "/pages/approval/approval" },
 ];
 
+import "./workbench.css";
+
 export default function Workbench() {
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);

@@ -9,6 +9,8 @@ import { EmptyState, StatusBadge } from "../../components/MiniUI";
 import { getCustomer, isCustomerApiError, STATUS_META, type Customer } from "../../services/customer";
 import { colors } from "../../theme/colors";
 
+import "./detail.css";
+
 export default function CustomerDetail() {
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [loading, setLoading] = useState(true);

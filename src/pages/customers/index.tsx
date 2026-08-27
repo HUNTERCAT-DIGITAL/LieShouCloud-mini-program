@@ -9,6 +9,8 @@ import { EmptyState, StatusBadge } from "../../components/MiniUI";
 import { listCustomers, STATUS_META, type Customer } from "../../services/customer";
 import { colors } from "../../theme/colors";
 
+import "./index.css";
+
 export default function CustomersList() {
   const [keyword, setKeyword] = useState("");
   const [data, setData] = useState<Customer[]>([]);

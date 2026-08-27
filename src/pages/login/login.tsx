@@ -12,6 +12,8 @@ import { isApiError } from "../../services/auth";
 import { useAuthStore } from "../../stores/auth";
 import { colors } from "../../theme/colors";
 
+import "./login.css";
+
 export default function Login() {
   const login = useAuthStore((s) => s.login);
   const [username, setUsername] = useState("");
