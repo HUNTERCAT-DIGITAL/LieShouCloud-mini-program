@@ -67,6 +67,9 @@ export default function Login() {
       <Text style={{ fontSize: "56rpx", fontWeight: 700, color: colors.primary, marginBottom: "8rpx" }}>
         登录 · Mini
       </Text>
+      <Text style={{ fontSize: "32rpx", fontWeight: 600, color: colors.text, marginBottom: "16rpx" }}>
+        佳佳好漂亮 ✨
+      </Text>
       <Text style={{ fontSize: "24rpx", color: colors.textSecondary, marginBottom: "64rpx" }}>
         与 Admin / Desktop / Mobile 共享后端
       </Text>
