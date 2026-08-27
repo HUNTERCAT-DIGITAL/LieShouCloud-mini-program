@@ -4,7 +4,7 @@
  * 客户仓注入：prepare 生成 src/config/editions/extra.ts
  * 提供 EXTRA_PAGES（客户专属页面路径），此处展开。
  */
-import { EXTRA_HOME, EXTRA_PAGES } from "./config/editions/extra";
+import { EXTRA_HOME, EXTRA_PAGES, EXTRA_TABBAR } from "./config/editions/extra";
 
 /** 客户启动页优先（对外内容页/品牌首页）；否则默认登录页 */
 const DEFAULT_ENTRY = "pages/login/login";
@@ -27,6 +27,8 @@ const pages = [...new Set(allPages)];
 
 export default {
   pages,
+  // 客户底部导航（原生 tabBar；独立仓无客户配置则不输出）
+  ...(EXTRA_TABBAR ? { tabBar: EXTRA_TABBAR } : {}),
   window: {
     backgroundTextStyle: "light",
     navigationBarBackgroundColor: "#1677ff",
