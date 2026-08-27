@@ -12,7 +12,7 @@
 ## 技术栈
 
 - Taro 4(React 18 + TypeScript)+ pnpm workspace
-- 共享层 `@lieshoucloud/{api-client,config,types}` 经 `open/` submodule 挂载 [lieshou-cloud-web](https://github.com/HUNTERCAT-DIGITAL/lieshou-cloud-web)
+- 共享层 `@lieshoucloud/{contract-api,contract-types,contract-config,core-web}` 经 `open/` submodule 挂载 [lieshou-cloud-web](https://github.com/HUNTERCAT-DIGITAL/lieshou-cloud-web)
 
 ## 快速开始
 
@@ -42,6 +42,16 @@ pnpm dev:h5                               # H5 预览
 - 客户 Edition 配置在客户仓(本仓仅 `generic` + `layer` 预设)
 - `app.config.ts` 展开 `EXTRA_PAGES` 注册客户页面;workbench 渲染 `EXTRA_ENTRIES`
 - 行业能力经 `edition.industries` 声明(industry 包为闭源商业模块)
+
+## 共享层升级流程
+
+共享层（`open/` 下 submodule：contract-api / contract-types / contract-config / ui / core-web）由独立仓维护：
+
+1. 改共享仓（如 `lieshou-core-web`）→ 提交 + push
+2. 本端升级：`git -C open/core-web fetch origin main && git -C open/core-web checkout <commit>`
+3. 本端提交 gitlink bump（`open/*` 指针变更）
+
+> 纪律：共享仓提交后**立即** bump 各端 pin，避免 submodule 漂移。
 
 ## 关联仓库
 
