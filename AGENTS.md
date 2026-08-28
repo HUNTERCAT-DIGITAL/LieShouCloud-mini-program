@@ -21,16 +21,17 @@ Taro 4 小程序薄壳端：业务逻辑在 `@lieshoucloud/core-web`（configure
 - 单分支 main，直接推送（parallel 会话存在，push 前先 fetch）
 
 ## 当前阶段
-客户注入体系铺开完成（EXTRA_TABBAR/EXTRA_HOME/EXTRA_PAGES/EXTRA_ENTRIES）；类型收敛至契约层进行中（Customer/Product/approval/ApiError 已完成）；真实 ESLint 已启用。
+客户注入体系铺开完成（EXTRA_TABBAR/EXTRA_HOME/EXTRA_PAGES/EXTRA_ENTRIES）；类型收敛至契约层**已闭环**（customer/inventory/approval/finance 全部收敛，仅 user.ts UserOption 为下拉专用裁剪 DTO 合理保留）；真实 ESLint 已启用。
 
 ## 待办
-- [ ] 验证 contract-api bump 9685220（normalizeApiPath 自动补 /api）后跑 pnpm test
 - [ ] 清理假数据（workbench「今日新增 3」硬编码）
 - [ ] `resolveEditionFromHostname` stub 补 TODO 或实现（当前硬编码 generic）
 - [ ] `open/ui` submodule 零引用：用起来或摘除（动 submodule 需先确认）
 - [ ] 登录页微信一键登录/记住账号（后端支持情况待确认）
 
+> ✅ 已验证：contract-api bump 9685220（normalizeApiPath 自动补 /api）后测试持续 43/43 全绿，断言未受影响。
+
 ## 关键决策
-- 2026-08-28: 类型/META 收敛至契约层（Customer/Product/approval/ApiError 去重复定义）；StatusBadge 加 ANTD_TAG_COLORS（antd 语义色 → 小程序色值）
+- 2026-08-28: 类型/META 收敛至契约层**闭环**（customer/inventory/approval/finance 去重复定义 + ApiError 统一 contract-api）；StatusBadge 加 ANTD_TAG_COLORS（antd 语义色 → 小程序色值）
 - 2026-08-28: 真实 ESLint（flat config + react-hooks）替换占位脚本；api.test 改 mock @tarojs/taro（fetchGatewayHealth 走 Taro.request 非 fetch）
 - 2026-08-27: EXTRA_TABBAR 客户底部导航注入（原生 tabBar）
