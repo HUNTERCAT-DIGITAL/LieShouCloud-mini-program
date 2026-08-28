@@ -19,6 +19,7 @@
     "@lieshoucloud/contract-api": "workspace:*",
     "@lieshoucloud/contract-types": "workspace:*",
     "@lieshoucloud/core-web": "workspace:*",
+    "@lieshoucloud/ui-native": "workspace:*",
     "@tarojs/components": "4.0.13",
     "@tarojs/react": "4.0.13",
     "@tarojs/runtime": "4.0.13",

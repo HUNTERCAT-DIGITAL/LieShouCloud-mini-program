@@ -8,7 +8,7 @@
  */
 import type { PropsWithChildren } from "react";
 import { useLaunch, getStorageSync, setStorageSync, removeStorageSync, navigateTo, redirectTo, showToast, request } from "@tarojs/taro";
-import { configureCore } from "@lieshoucloud/core-web";
+import { configureCore, useAuthStore } from "@lieshoucloud/core-web";
 
 import { MINI_API_BASE, configureApiBaseUrl } from "./services/api";
 
@@ -53,6 +53,9 @@ configureCore({
     },
   },
 });
+
+// core-web auth store 采用 skipHydration（端口注入后显式恢复会话，2026-09 正本清源）
+void useAuthStore.persist.rehydrate();
 
 // 入口模块加载时即配置 API 网关地址（TARO_APP_API_BASE 可覆盖，见 services/api.ts）
 configureApiBaseUrl();
