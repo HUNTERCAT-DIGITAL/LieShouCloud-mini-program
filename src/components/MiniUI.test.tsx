@@ -11,7 +11,7 @@ import { EmptyState, RoleBadge, StatusBadge } from "./MiniUI";
 type El = { props: { children?: unknown } };
 
 function collectText(node: unknown, out: string[] = []): string[] {
-  if (node == null) return out;
+  if (node === null || node === undefined) return out;
   if (typeof node === "string" || typeof node === "number") {
     out.push(String(node));
     return out;

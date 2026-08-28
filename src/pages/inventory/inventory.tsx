@@ -102,7 +102,7 @@ export default function Inventory() {
               />
             </View>
             <Text style={{ fontSize: "24rpx", color: colors.textSecondary }}>
-              {p.code ?? "无编码"} · ¥ {p.price != null ? Number(p.price).toFixed(2) : "—"}
+              {p.code ?? "无编码"} · ¥ {p.price !== null && p.price !== undefined ? Number(p.price).toFixed(2) : "—"}
             </Text>
             <View style={{ display: "flex", flexDirection: "row", gap: "16rpx", marginTop: "16rpx" }}>
               <Button

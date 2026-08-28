@@ -59,6 +59,7 @@ configureApiBaseUrl();
 
 function App({ children }: PropsWithChildren) {
   useLaunch(() => {
+    // eslint-disable-next-line no-console -- 启动日志（有意保留）
     console.log("[LieShou Cloud Mini] App launched.");
   });
 
