@@ -1,20 +1,17 @@
 /**
  * 小程序 customer service（Phase 9 · 多端真实化）.
+ *
+ * 类型收敛（Bottom-Up · 2026-09）：Customer / CustomerStatus / STATUS_META
+ * 一律来自契约层（@lieshoucloud/contract-types），禁止端侧重定义；
+ * STATUS_META 因 contract-types index.ts `export *` 同名冲突不导出，走深路径。
+ * 此处 re-export 保持 services/customer 为端侧统一出口（页面 import 路径不变）。
  */
 import { request } from "@lieshoucloud/contract-api";
+import type { Customer, CustomerStatus } from "@lieshoucloud/contract-types";
+import { STATUS_META } from "@lieshoucloud/contract-types/business/customer";
 
-export type CustomerStatus = "NEW" | "FOLLOWING" | "CONVERTED" | "LOST";
-
-export interface Customer {
-  id: number;
-  tenantId: number;
-  name: string;
-  contactName?: string | null;
-  contactPhone?: string | null;
-  email?: string | null;
-  status: CustomerStatus;
-  createdAt: string;
-}
+export type { Customer, CustomerStatus } from "@lieshoucloud/contract-types";
+export { STATUS_META };
 
 export async function listCustomers(keyword?: string, status?: CustomerStatus): Promise<Customer[]> {
   const query: Record<string, string> = {};
@@ -30,13 +27,6 @@ export async function countCustomers(): Promise<number> {
 export async function getCustomer(id: number): Promise<Customer> {
   return request<Customer>({ method: "GET", path: `/customers/${id}` });
 }
-
-export const STATUS_META: Record<CustomerStatus, { text: string; color: string }> = {
-  NEW: { text: "新客户", color: "#1677ff" },
-  FOLLOWING: { text: "跟进中", color: "#faad14" },
-  CONVERTED: { text: "已转化", color: "#52c41a" },
-  LOST: { text: "已流失", color: "#bfbfbf" },
-};
 
 export interface CustomerApiError extends Error {
   status?: number;
