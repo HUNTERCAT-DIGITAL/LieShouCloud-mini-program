@@ -28,11 +28,7 @@ export async function getCustomer(id: number): Promise<Customer> {
   return request<Customer>({ method: "GET", path: `/customers/${id}` });
 }
 
-export interface CustomerApiError extends Error {
-  status?: number;
-  code?: string;
-}
+// 错误类型收敛（Bottom-Up · 2026-09）：ApiError / isApiError 来自契约层
+// （@lieshoucloud/contract-api，含 code/status 透传），不再重复定义 CustomerApiError。
+export { isApiError } from "@lieshoucloud/contract-api";
 
-export function isCustomerApiError(e: unknown): e is CustomerApiError {
-  return e instanceof Error && "status" in e;
-}

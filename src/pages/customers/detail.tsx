@@ -6,7 +6,7 @@ import Taro from "@tarojs/taro";
 import { useEffect, useState } from "react";
 
 import { EmptyState, StatusBadge } from "../../components/MiniUI";
-import { getCustomer, isCustomerApiError, STATUS_META, type Customer } from "../../services/customer";
+import { getCustomer, isApiError, STATUS_META, type Customer } from "../../services/customer";
 import { colors } from "../../theme/colors";
 
 import "./detail.css";
@@ -34,7 +34,7 @@ export default function CustomerDetail() {
     getCustomer(cid)
       .then(setCustomer)
       .catch((e: unknown) => {
-        if (isCustomerApiError(e) && e.status === 404) setNotFound(true);
+        if (isApiError(e) && e.status === 404) setNotFound(true);
       })
       .finally(() => setLoading(false));
   }, []);

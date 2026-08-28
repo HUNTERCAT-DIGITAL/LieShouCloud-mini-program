@@ -8,6 +8,10 @@
 import { request } from "@lieshoucloud/contract-api";
 import type { CurrentUser, LoginRequest, TokenResponse } from "@lieshoucloud/contract-types";
 
+// 错误类型收敛（Bottom-Up · 2026-09）：ApiError / isApiError 来自契约层
+// （@lieshoucloud/contract-api 已提供 code/status 透传），端侧不再重复定义。
+export { isApiError } from "@lieshoucloud/contract-api";
+
 export async function login(req: LoginRequest): Promise<TokenResponse> {
   return request<TokenResponse>({ method: "POST", path: `/auth/login`, body: req });
 }
@@ -16,11 +20,3 @@ export async function fetchCurrentUser(): Promise<CurrentUser> {
   return request<CurrentUser>({ method: "GET", path: `/auth/me` });
 }
 
-export interface ApiError extends Error {
-  code?: string;
-  status?: number;
-}
-
-export function isApiError(e: unknown): e is ApiError {
-  return e instanceof Error && "status" in e;
-}
