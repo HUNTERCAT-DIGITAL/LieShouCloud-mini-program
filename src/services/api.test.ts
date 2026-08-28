@@ -10,6 +10,9 @@
  */
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+// api.ts 的 fetchGatewayHealth 走 Taro request（非 fetch）——mock @tarojs/taro
+vi.mock("@tarojs/taro", () => ({ request: vi.fn() }));
+
 const DEFAULT_API_BASE = "https://dev.lieshoucloud.huntercat.cn";
 
 const { mockTaroRequest } = vi.hoisted(() => ({ mockTaroRequest: vi.fn() }));
