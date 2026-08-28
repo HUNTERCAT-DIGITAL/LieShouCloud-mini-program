@@ -5,6 +5,7 @@ import { Button, Text, View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { useEffect, useState } from "react";
 
+import "./workbench.css";
 import { EmptyState, RoleBadge } from "../../components/MiniUI";
 import { countCustomers, listCustomers, STATUS_META, type Customer } from "../../services/customer";
 import { useAuthStore } from "../../stores/auth";
@@ -111,7 +112,7 @@ export default function Workbench() {
         </View>
       </View>
 
-      {/* 最近客户 */}
+      {/* 快捷入口（BASE_ENTRIES + EXTRA_ENTRIES，hiddenMenus 裁剪） */}
       <View
         style={{
           backgroundColor: "#fff",
