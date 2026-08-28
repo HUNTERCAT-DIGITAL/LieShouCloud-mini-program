@@ -17,10 +17,38 @@ const tagBase: CSSProperties = {
   lineHeight: 1.4,
 };
 
+/**
+ * antd Tag 预设色 → 小程序色值（对齐 admin-web 的 antd 色彩体系）.
+ * 共享层 META（STATUS_META / APPROVAL_*_META / MOVEMENT_META）的 color
+ * 是 antd 语义色名（blue/gold/processing/volcano...），非 CSS 色值；
+ * 端侧无 antd，StatusBadge 实心色块消费时经此映射。
+ * 未命中（如直接传 hex）回退原值。
+ */
+const ANTD_TAG_COLORS: Record<string, string> = {
+  magenta: "#eb2f96",
+  red: "#f5222d",
+  volcano: "#fa541c",
+  orange: "#fa8c16",
+  gold: "#faad14",
+  lime: "#a0d911",
+  green: "#52c41a",
+  cyan: "#13c2c2",
+  blue: "#1677ff",
+  geekblue: "#2f54eb",
+  purple: "#722ed1",
+  // antd 状态色
+  processing: "#1677ff",
+  success: "#52c41a",
+  error: "#ff4d4f",
+  warning: "#faad14",
+  // default 中性灰（StatusBadge 为实心白字风格）
+  default: "#8c8c8c",
+};
+
 /** 状态徽章 */
 export function StatusBadge({ text, color }: { text: string; color: string }): ReactNode {
   return (
-    <View style={{ ...tagBase, backgroundColor: color }}>
+    <View style={{ ...tagBase, backgroundColor: ANTD_TAG_COLORS[color] ?? color }}>
       <Text style={{ color: "#fff", fontSize: "22rpx" }}>{text}</Text>
     </View>
   );

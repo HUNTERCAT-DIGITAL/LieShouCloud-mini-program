@@ -1,30 +1,33 @@
 /**
  * 小程序 approval service（ADR-0032 · 审批流，多端接入）.
+ *
+ * 类型收敛（Bottom-Up · 2026-09）：ApprovalType / ApprovalStatus / ApprovalRequest /
+ * ApprovalCounts / CreateApprovalRequest / APPROVAL_TYPE_META / APPROVAL_STATUS_META
+ * 一律来自契约层（@lieshoucloud/contract-types，approval 模块无同名冲突，顶层可导）；
+ * 此处 re-export 保持 services/approval 为端侧统一出口（页面 import 路径不变）。
+ * 注意：共享层 META 的 color 为 antd 语义色，由 MiniUI StatusBadge 经 ANTD_TAG_COLORS 映射。
  */
 import { request } from "@lieshoucloud/contract-api";
+import type {
+  ApprovalCounts,
+  ApprovalRequest,
+  ApprovalStatus,
+  ApprovalType,
+  CreateApprovalRequest,
+} from "@lieshoucloud/contract-types";
+import {
+  APPROVAL_STATUS_META,
+  APPROVAL_TYPE_META,
+} from "@lieshoucloud/contract-types";
 
-export type ApprovalType = "EXPENSE" | "PURCHASE" | "SALE" | "OTHER";
-export type ApprovalStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
-
-export interface ApprovalRequest {
-  id: number;
-  type: ApprovalType;
-  title: string;
-  amount?: number | null;
-  detail?: string | null;
-  requesterId: number;
-  approverId: number;
-  status: ApprovalStatus;
-  comment?: string | null;
-  decidedBy?: number | null;
-  decidedAt?: string | null;
-  createdAt: string;
-}
-
-export interface ApprovalCounts {
-  inbox: number;
-  mine: number;
-}
+export type {
+  ApprovalCounts,
+  ApprovalRequest,
+  ApprovalStatus,
+  ApprovalType,
+  CreateApprovalRequest,
+} from "@lieshoucloud/contract-types";
+export { APPROVAL_STATUS_META, APPROVAL_TYPE_META };
 
 /** 租户内列表（role: mine=我发起的 / inbox=待我审批 / all=全部） */
 export async function listApprovals(params?: {
@@ -45,13 +48,7 @@ export async function getApprovalCounts(): Promise<ApprovalCounts> {
 }
 
 /** 发起审批 */
-export async function createApproval(body: {
-  type: ApprovalType;
-  title: string;
-  amount?: number;
-  detail?: string;
-  approverId: number;
-}): Promise<ApprovalRequest> {
+export async function createApproval(body: CreateApprovalRequest): Promise<ApprovalRequest> {
   return request<ApprovalRequest>({ method: "POST", path: "/approvals", body });
 }
 
@@ -70,18 +67,3 @@ export async function cancelApproval(id: number): Promise<ApprovalRequest> {
   return request<ApprovalRequest>({ method: "POST", path: `/approvals/${id}/cancel`, body: {} });
 }
 
-/** 类型 → 中文/颜色 */
-export const APPROVAL_TYPE_META: Record<ApprovalType, { text: string; color: string }> = {
-  EXPENSE: { text: "支出报销", color: "#fa541c" },
-  PURCHASE: { text: "采购", color: "#1677ff" },
-  SALE: { text: "销售出库", color: "#52c41a" },
-  OTHER: { text: "其他", color: "#8c8c8c" },
-};
-
-/** 状态 → 中文/颜色 */
-export const APPROVAL_STATUS_META: Record<ApprovalStatus, { text: string; color: string }> = {
-  PENDING: { text: "待审批", color: "#1677ff" },
-  APPROVED: { text: "已通过", color: "#52c41a" },
-  REJECTED: { text: "已驳回", color: "#f5222d" },
-  CANCELLED: { text: "已撤销", color: "#8c8c8c" },
-};
