@@ -74,13 +74,13 @@ export default function HomePage() {
   ];
 
   return (
-    <View style={{ minHeight: '100vh', backgroundColor: bgColor, padding: `${spacing.md}rpx` }}>
+    <View style={{ minHeight: '100vh', backgroundColor: bgColor, padding: `${spacing.md}px` }}>
       {/* 品牌 hero */}
-      <View style={{ textAlign: 'center', padding: `${spacing.xl}rpx 0 ${spacing.lg}rpx` }}>
+      <View style={{ textAlign: 'center', padding: `${spacing.xl}px 0 ${spacing.lg}px` }}>
         <Text
           style={{
             display: 'block',
-            fontSize: `${fontSize.xxl}rpx`,
+            fontSize: `${fontSize.xxl}px`,
             fontWeight: 700,
             color: brandColor,
           }}
@@ -90,8 +90,8 @@ export default function HomePage() {
         <Text
           style={{
             display: 'block',
-            marginTop: `${spacing.xs}rpx`,
-            fontSize: `${fontSize.sm}rpx`,
+            marginTop: `${spacing.xs}px`,
+            fontSize: `${fontSize.sm}px`,
             color: textColor.secondary,
           }}
         >
@@ -103,9 +103,9 @@ export default function HomePage() {
       <View
         style={{
           backgroundColor: cardColor,
-          borderRadius: `${radius.lg}rpx`,
-          padding: `0 ${spacing.md}rpx`,
-          marginBottom: `${spacing.md}rpx`,
+          borderRadius: `${radius.lg}px`,
+          padding: `0 ${spacing.md}px`,
+          marginBottom: `${spacing.md}px`,
         }}
       >
         {infoRows.map((row, i) => (
@@ -115,12 +115,12 @@ export default function HomePage() {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              padding: `${spacing.sm}rpx 0`,
-              borderBottom: i < infoRows.length - 1 ? `1rpx solid ${borderColor}` : 'none',
+              padding: `${spacing.sm}px 0`,
+              borderBottom: i < infoRows.length - 1 ? `0px solid ${borderColor}` : 'none',
             }}
           >
-            <Text style={{ fontSize: `${fontSize.md}rpx`, color: textColor.secondary }}>{row.key}</Text>
-            <Text style={{ fontSize: `${fontSize.md}rpx`, color: textColor.main, fontWeight: 600 }}>
+            <Text style={{ fontSize: `${fontSize.md}px`, color: textColor.secondary }}>{row.key}</Text>
+            <Text style={{ fontSize: `${fontSize.md}px`, color: textColor.main, fontWeight: 600 }}>
               {row.value}
             </Text>
           </View>
@@ -129,7 +129,7 @@ export default function HomePage() {
 
       {/* 连通性检查 */}
       {checkMsg && (
-        <View style={{ marginBottom: `${spacing.md}rpx` }}>
+        <View style={{ marginBottom: `${spacing.md}px` }}>
           <HealthBanner
             status={checkMsg.ok ? 'success' : 'error'}
             title={checkMsg.ok ? '后端连通正常' : '后端连通失败'}
@@ -145,10 +145,10 @@ export default function HomePage() {
         style={{
           backgroundColor: brandColor,
           color: '#fff',
-          fontSize: `${fontSize.md}rpx`,
+          fontSize: `${fontSize.md}px`,
           fontWeight: 600,
-          borderRadius: `${radius.lg}rpx`,
-          marginBottom: `${spacing.sm}rpx`,
+          borderRadius: `${radius.lg}px`,
+          marginBottom: `${spacing.sm}px`,
         }}
       >
         检查后端连通性
@@ -158,8 +158,8 @@ export default function HomePage() {
         style={{
           backgroundColor: cardColor,
           color: textColor.secondary,
-          fontSize: `${fontSize.md}rpx`,
-          borderRadius: `${radius.lg}rpx`,
+          fontSize: `${fontSize.md}px`,
+          borderRadius: `${radius.lg}px`,
         }}
       >
         退出登录

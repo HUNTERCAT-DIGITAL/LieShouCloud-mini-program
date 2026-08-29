@@ -1,6 +1,7 @@
 /**
  * 小程序端设计令牌（Design Tokens）—— 对齐 mobile-ui.md（mobile App）与 UI.md 规范.
- * 单位：rpx（设计稿 750，1rpx = 0.5px@375）。mobile tokens（px）→ 本表 ×2。
+ * 单位：px（逻辑像素）。⚠️ 内联 style 不支持 rpx（Taro H5 端不转换），统一用 px，
+ * 与 mobile（react-native-paper）同源：mobile tokens 原值即本表。
  * 铁律：页面/组件样式必须走 token，禁止硬编码魔法值（状态色/间距/字号/圆角）。
  */
 
@@ -37,32 +38,32 @@ export const STATUS_META = {
 } as const;
 export type StatusKey = keyof typeof STATUS_META;
 
-/** 间距（4 基准 · mobile tokens ×2） */
+/** 间距（4 基准 · mobile tokens 原值） */
 export const spacing = {
-  xxs: 4,
-  xs: 8,
-  sm: 16,
-  md: 32,
-  lg: 40,
-  xl: 48,
-  xxl: 64,
-} as const;
-
-/** 字号（mobile tokens ×2 · rpx） */
-export const fontSize = {
-  xs: 22,
-  sm: 24,
-  md: 28,
-  lg: 32,
-  xl: 40,
-  xxl: 44,
-} as const;
-
-/** 圆角（mobile tokens ×2 · rpx） */
-export const radius = {
+  xxs: 2,
+  xs: 4,
   sm: 8,
-  md: 12,
+  md: 16,
+  lg: 20,
+  xl: 24,
+  xxl: 32,
+} as const;
+
+/** 字号（mobile tokens 原值） */
+export const fontSize = {
+  xs: 11,
+  sm: 12,
+  md: 14,
   lg: 16,
+  xl: 20,
+  xxl: 22,
+} as const;
+
+/** 圆角（mobile tokens 原值） */
+export const radius = {
+  sm: 4,
+  md: 6,
+  lg: 8,
 } as const;
 
 /** 行高 / 加粗 */

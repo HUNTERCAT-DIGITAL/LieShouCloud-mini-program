@@ -19,8 +19,8 @@ export default function StatGrid({ items }: { items: StatItem[] }) {
         display: 'flex',
         flexWrap: 'wrap',
         backgroundColor: '#fff',
-        borderRadius: `${radius.lg}rpx`,
-        padding: `${spacing.md}rpx 0`,
+        borderRadius: `${radius.lg}px`,
+        padding: `${spacing.md}px 0`,
       }}
     >
       {items.map((it) => (
@@ -31,12 +31,12 @@ export default function StatGrid({ items }: { items: StatItem[] }) {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            padding: `${spacing.xs}rpx 0`,
+            padding: `${spacing.xs}px 0`,
           }}
         >
           <Text
             style={{
-              fontSize: `${fontSize.xl}rpx`,
+              fontSize: `${fontSize.xl}px`,
               fontWeight: 700,
               lineHeight: 1.3,
               color: it.color ?? textColor.main,
@@ -44,7 +44,7 @@ export default function StatGrid({ items }: { items: StatItem[] }) {
           >
             {it.value}
           </Text>
-          <Text style={{ marginTop: `${spacing.xxs}rpx`, fontSize: `${fontSize.xs}rpx`, color: textColor.secondary }}>
+          <Text style={{ marginTop: `${spacing.xxs}px`, fontSize: `${fontSize.xs}px`, color: textColor.secondary }}>
             {it.label}
           </Text>
         </View>

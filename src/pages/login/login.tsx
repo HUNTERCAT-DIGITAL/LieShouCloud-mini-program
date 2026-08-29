@@ -23,13 +23,13 @@ import {
 } from '../../styles/tokens';
 
 const inputStyle = {
-  height: '88rpx',
-  padding: `0 ${spacing.md}rpx`,
-  marginBottom: `${spacing.md}rpx`,
-  borderRadius: `${radius.md}rpx`,
-  border: `1rpx solid ${borderColor}`,
+  height: '44px',
+  padding: `0 ${spacing.md}px`,
+  marginBottom: `${spacing.md}px`,
+  borderRadius: `${radius.md}px`,
+  border: `0px solid ${borderColor}`,
   backgroundColor: cardColor,
-  fontSize: `${fontSize.md}rpx`,
+  fontSize: `${fontSize.md}px`,
   color: textColor.main,
 } as const;
 
@@ -73,15 +73,15 @@ export default function LoginPage() {
       style={{
         minHeight: '100vh',
         backgroundColor: bgColor,
-        padding: `${spacing.xxl}rpx ${spacing.xl}rpx`,
+        padding: `${spacing.xxl}px ${spacing.xl}px`,
       }}
     >
       {/* 品牌 hero */}
-      <View style={{ textAlign: 'center', padding: `${spacing.xl}rpx 0 ${spacing.xxl}rpx` }}>
+      <View style={{ textAlign: 'center', padding: `${spacing.xl}px 0 ${spacing.xxl}px` }}>
         <Text
           style={{
             display: 'block',
-            fontSize: '56rpx',
+            fontSize: '28px',
             fontWeight: 700,
             color: brandColor,
           }}
@@ -92,8 +92,8 @@ export default function LoginPage() {
           <Text
             style={{
               display: 'block',
-              marginTop: `${spacing.sm}rpx`,
-              fontSize: `${fontSize.sm}rpx`,
+              marginTop: `${spacing.sm}px`,
+              fontSize: `${fontSize.sm}px`,
               color: textColor.secondary,
             }}
           >
@@ -127,7 +127,7 @@ export default function LoginPage() {
           onInput={(e) => setPassword(e.detail.value)}
         />
         {error ? (
-          <Text style={{ display: 'block', marginBottom: `${spacing.sm}rpx`, fontSize: `${fontSize.sm}rpx`, color: statusColor.error }}>
+          <Text style={{ display: 'block', marginBottom: `${spacing.sm}px`, fontSize: `${fontSize.sm}px`, color: statusColor.error }}>
             {error}
           </Text>
         ) : null}
@@ -135,12 +135,12 @@ export default function LoginPage() {
           loading={submitting}
           onClick={handleLogin}
           style={{
-            marginTop: `${spacing.sm}rpx`,
+            marginTop: `${spacing.sm}px`,
             backgroundColor: brandColor,
             color: '#fff',
-            fontSize: `${fontSize.lg}rpx`,
+            fontSize: `${fontSize.lg}px`,
             fontWeight: 600,
-            borderRadius: `${radius.lg}rpx`,
+            borderRadius: `${radius.lg}px`,
           }}
         >
           登 录

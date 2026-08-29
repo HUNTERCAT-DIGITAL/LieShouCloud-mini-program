@@ -19,12 +19,12 @@ export default function StatusBadge({ status, text, size = 'sm' }: StatusBadgePr
       style={{
         display: 'inline-flex',
         alignItems: 'center',
-        padding: `${spacing.xxs}rpx ${padH}rpx`,
-        borderRadius: `${radius.sm}rpx`,
+        padding: `${spacing.xxs}px ${padH}px`,
+        borderRadius: `${radius.sm}px`,
         backgroundColor: meta.color + '1f', // 8% 透明浅底（#rrggbbaa）
       }}
     >
-      <Text style={{ fontSize: `${font}rpx`, lineHeight: 1.4, color: meta.color, fontWeight: 600 }}>
+      <Text style={{ fontSize: `${font}px`, lineHeight: 1.4, color: meta.color, fontWeight: 600 }}>
         {text ?? meta.text}
       </Text>
     </View>

@@ -20,17 +20,17 @@ export default function HealthBanner({
       style={{
         display: 'flex',
         flexDirection: 'column',
-        padding: `${spacing.md}rpx ${spacing.lg}rpx`,
-        borderRadius: `${radius.lg}rpx`,
+        padding: `${spacing.md}px ${spacing.lg}px`,
+        borderRadius: `${radius.lg}px`,
         backgroundColor: meta.color + '1f',
-        borderLeft: `8rpx solid ${meta.color}`,
+        borderLeft: `4px solid ${meta.color}`,
       }}
     >
-      <Text style={{ fontSize: `${fontSize.lg}rpx`, fontWeight: 700, color: textColor.main, lineHeight: 1.4 }}>
+      <Text style={{ fontSize: `${fontSize.lg}px`, fontWeight: 700, color: textColor.main, lineHeight: 1.4 }}>
         {title}
       </Text>
       {subtitle ? (
-        <Text style={{ marginTop: `${spacing.xs}rpx`, fontSize: `${fontSize.sm}rpx`, color: textColor.secondary }}>
+        <Text style={{ marginTop: `${spacing.xs}px`, fontSize: `${fontSize.sm}px`, color: textColor.secondary }}>
           {subtitle}
         </Text>
       ) : null}

@@ -12,10 +12,10 @@ export function LoadingView({ text = '加载中…' }: { text?: string }) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: `${spacing.xxl}rpx 0`,
+        padding: `${spacing.xxl}px 0`,
       }}
     >
-      <Text style={{ fontSize: `${fontSize.md}rpx`, color: textColor.secondary }}>{text}</Text>
+      <Text style={{ fontSize: `${fontSize.md}px`, color: textColor.secondary }}>{text}</Text>
     </View>
   );
 }
@@ -28,11 +28,11 @@ export function EmptyState({ icon = '📭', text = '暂无数据' }: { icon?: st
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: `${spacing.xxl}rpx 0`,
+        padding: `${spacing.xxl}px 0`,
       }}
     >
-      <Text style={{ fontSize: `${fontSize.xl}rpx`, marginBottom: `${spacing.sm}rpx` }}>{icon}</Text>
-      <Text style={{ fontSize: `${fontSize.md}rpx`, color: textColor.secondary }}>{text}</Text>
+      <Text style={{ fontSize: `${fontSize.xl}px`, marginBottom: `${spacing.sm}px` }}>{icon}</Text>
+      <Text style={{ fontSize: `${fontSize.md}px`, color: textColor.secondary }}>{text}</Text>
     </View>
   );
 }
@@ -45,21 +45,21 @@ export function ErrorView({ text = '加载失败', onRetry }: { text?: string; o
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: `${spacing.xxl}rpx 0`,
+        padding: `${spacing.xxl}px 0`,
       }}
     >
-      <Text style={{ fontSize: `${fontSize.md}rpx`, color: textColor.secondary }}>{text}</Text>
+      <Text style={{ fontSize: `${fontSize.md}px`, color: textColor.secondary }}>{text}</Text>
       {onRetry ? (
         <View
           onClick={onRetry}
           style={{
-            marginTop: `${spacing.md}rpx`,
-            padding: `${spacing.sm}rpx ${spacing.xl}rpx`,
-            borderRadius: `${radius.lg}rpx`,
+            marginTop: `${spacing.md}px`,
+            padding: `${spacing.sm}px ${spacing.xl}px`,
+            borderRadius: `${radius.lg}px`,
             backgroundColor: '#02429b',
           }}
         >
-          <Text style={{ fontSize: `${fontSize.md}rpx`, color: '#fff' }}>重试</Text>
+          <Text style={{ fontSize: `${fontSize.md}px`, color: '#fff' }}>重试</Text>
         </View>
       ) : null}
     </View>

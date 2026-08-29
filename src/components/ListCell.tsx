@@ -7,7 +7,7 @@ import { Text, View } from '@tarojs/components';
 import { borderColor, fontSize, radius, spacing, textColor } from '../styles/tokens';
 
 export interface ListCellProps {
-  /** 图标底（emoji / 首字符 / 自定义节点），建议 72rpx 圆角 */
+  /** 图标底（emoji / 首字符 / 自定义节点），建议 36px 圆角 */
   icon?: ReactNode;
   title: string;
   description?: string;
@@ -23,23 +23,23 @@ export default function ListCell({ icon, title, description, right, onClick }: L
       style={{
         display: 'flex',
         alignItems: 'center',
-        minHeight: '96rpx',
-        padding: `${spacing.sm}rpx ${spacing.md}rpx`,
+        minHeight: '48px',
+        padding: `${spacing.sm}px ${spacing.md}px`,
         backgroundColor: '#fff',
-        borderBottom: `1rpx solid ${borderColor}`,
+        borderBottom: `0px solid ${borderColor}`,
       }}
     >
       {icon ? (
         <View
           style={{
-            width: '72rpx',
-            height: '72rpx',
-            borderRadius: `${radius.md}rpx`,
-            marginRight: `${spacing.md}rpx`,
+            width: '36px',
+            height: '36px',
+            borderRadius: `${radius.md}px`,
+            marginRight: `${spacing.md}px`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: `${fontSize.xl}rpx`,
+            fontSize: `${fontSize.xl}px`,
             backgroundColor: '#f0f4ff',
             flexShrink: 0,
           }}
@@ -51,7 +51,7 @@ export default function ListCell({ icon, title, description, right, onClick }: L
         <Text
           style={{
             display: 'block',
-            fontSize: `${fontSize.lg}rpx`,
+            fontSize: `${fontSize.lg}px`,
             fontWeight: 600,
             color: textColor.main,
             lineHeight: 1.4,
@@ -64,8 +64,8 @@ export default function ListCell({ icon, title, description, right, onClick }: L
           <Text
             style={{
               display: 'block',
-              marginTop: `${spacing.xxs}rpx`,
-              fontSize: `${fontSize.sm}rpx`,
+              marginTop: `${spacing.xxs}px`,
+              fontSize: `${fontSize.sm}px`,
               color: textColor.secondary,
               lineHeight: 1.4,
             }}
@@ -75,7 +75,7 @@ export default function ListCell({ icon, title, description, right, onClick }: L
           </Text>
         ) : null}
       </View>
-      {right ? <View style={{ marginLeft: `${spacing.sm}rpx`, flexShrink: 0 }}>{right}</View> : null}
+      {right ? <View style={{ marginLeft: `${spacing.sm}px`, flexShrink: 0 }}>{right}</View> : null}
     </View>
   );
 }
