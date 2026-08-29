@@ -1,13 +1,10 @@
-/**
- * 版别配置 · generic.
- * 客户层声明（industries: 启用的行业能力）+ 品牌 + 菜单裁剪。
- */
-import type { MiniEdition } from './types';
+/** 默认版别（generic）· 端自身骨架：登录 + 启动页 */
+import type { EditionConfig } from './types';
 
-export const genericEdition: MiniEdition = {
+export const genericEdition: EditionConfig = {
   id: 'generic',
-  brandName: 'LieShouCloud',
+  brandName: '猎手云',
+  slogan: '数字化平台 · 小程序',
+  tenantCode: 'default',
   login: { required: true, mode: 'password' },
-  industries: [],
-  hiddenMenus: [],
 };

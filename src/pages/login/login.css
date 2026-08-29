@@ -1,1 +1,62 @@
-/* login 页面样式（空占位，内联样式为主） */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 160rpx 48rpx;
+  background: linear-gradient(160deg, #02429b 0%, #0a6bd8 60%, #f5f6f7 60.1%);
+}
+
+.login-brand {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 64rpx;
+}
+
+.login-title {
+  display: block;
+  font-size: 56rpx;
+  font-weight: 600;
+}
+
+.login-slogan {
+  display: block;
+  margin-top: 16rpx;
+  font-size: 28rpx;
+  opacity: 0.85;
+}
+
+.login-form {
+  width: 100%;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 40rpx 32rpx;
+  box-shadow: 0 16rpx 48rpx rgb(0 0 0 / 10%);
+}
+
+.login-input {
+  height: 88rpx;
+  padding: 0 24rpx;
+  margin-bottom: 24rpx;
+  border: 2rpx solid #d9d9d9;
+  border-radius: 16rpx;
+  background: #fafafa;
+  font-size: 30rpx;
+}
+
+.login-error {
+  display: block;
+  margin-bottom: 16rpx;
+  color: #cf1322;
+  font-size: 26rpx;
+}
+
+.login-btn {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 16rpx;
+  background: #02429b;
+  color: #fff;
+  font-size: 32rpx;
+}

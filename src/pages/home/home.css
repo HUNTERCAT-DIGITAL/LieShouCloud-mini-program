@@ -1,0 +1,92 @@
+.home-page {
+  min-height: 100vh;
+  padding: 32rpx;
+  background: #f5f6f7;
+}
+
+.home-hero {
+  text-align: center;
+  padding: 48rpx 0 32rpx;
+}
+
+.home-title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.home-slogan {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 28rpx;
+  color: #8c8c8c;
+}
+
+.home-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 8rpx 32rpx;
+  margin-bottom: 32rpx;
+}
+
+.home-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28rpx 0;
+  border-bottom: 2rpx solid #f0f0f0;
+  font-size: 28rpx;
+}
+
+.home-row:last-child {
+  border-bottom: none;
+}
+
+.home-key {
+  color: #8c8c8c;
+}
+
+.home-value {
+  color: #1f1f1f;
+  text-align: right;
+}
+
+.home-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.btn-primary {
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 16rpx;
+  background: #02429b;
+  color: #fff;
+  font-size: 30rpx;
+}
+
+.btn-ghost {
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 16rpx;
+  background: #fff;
+  color: #595959;
+  font-size: 30rpx;
+  border: 2rpx solid #d9d9d9;
+}
+
+.check-ok {
+  display: block;
+  text-align: center;
+  color: #389e0d;
+  font-size: 26rpx;
+}
+
+.check-fail {
+  display: block;
+  text-align: center;
+  color: #cf1322;
+  font-size: 26rpx;
+}

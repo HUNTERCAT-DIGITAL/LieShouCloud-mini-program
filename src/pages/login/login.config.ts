@@ -1,5 +1,4 @@
-// 微信小程序页面配置: login
+/** 登录页配置 */
 export default {
-  navigationBarTitleText: "登录",
-  navigationStyle: "custom",
-} as const;
+  navigationBarTitleText: '登录',
+};
