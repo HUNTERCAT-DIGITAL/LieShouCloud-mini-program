@@ -5,10 +5,26 @@
  *  - alias 必须与 tsconfig.json paths 完全一致
  *  - 共享包源码（open/*）需加入 compile.include，webpack 才能用 babel 编译
  */
+import { existsSync, readdirSync, statSync } from "fs";
 import { resolve } from "path";
 import { defineConfig } from "@tarojs/cli";
 
 const projectRoot = resolve(__dirname, "..");
+
+// 客户聚合仓模式（2026-08）：客户仓 packages/<client> → @lieshoucloud/<client>
+// 独立仓库（无 ../packages）跳过，行为不变。webpack alias 前缀匹配，子路径自动拼接。
+const clientRoot = resolve(projectRoot, "../packages");
+const clientAlias: Record<string, string> = {};
+const clientIncludes: string[] = [];
+if (existsSync(clientRoot)) {
+  for (const name of readdirSync(clientRoot)) {
+    if (!statSync(resolve(clientRoot, name)).isDirectory()) continue;
+    const src = resolve(clientRoot, name, "src");
+    clientAlias[`@lieshoucloud/${name}`] = src;
+    clientAlias[`@lieshoucloud/${name}/*`] = `${src}/*`;
+    clientIncludes.push(src);
+  }
+}
 
 const alias = {
   "@": resolve(projectRoot, "src"),
@@ -17,6 +33,7 @@ const alias = {
   "@lieshoucloud/contract-types": resolve(projectRoot, "open/contract-types/src"),
   "@lieshoucloud/core-web": resolve(projectRoot, "open/core-web/src"),
   "@lieshoucloud/i18n": resolve(projectRoot, "open/i18n/src"),
+  ...clientAlias,
 };
 
 export default defineConfig({
@@ -56,6 +73,7 @@ export default defineConfig({
         resolve(projectRoot, "open/contract-types/src"),
         resolve(projectRoot, "open/core-web/src"),
         resolve(projectRoot, "open/i18n/src"),
+        ...clientIncludes,
       ],
     },
   },
