@@ -11,7 +11,8 @@
     "build:h5": "taro build --type h5",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
     "@tarojs/components": "4.0.13",
@@ -46,7 +47,9 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "typescript": "5.6.3",
     "typescript-eslint": "^8.15.0",
-    "webpack": "5.91.0"
+    "webpack": "5.91.0",
+    "vitest": "^3.0.5",
+    "jsdom": "30.0.1"
   },
   "engines": {
     "node": ">=22.0.0 <23.0.0",
