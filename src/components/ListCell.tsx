@@ -20,13 +20,15 @@ export default function ListCell({ icon, title, description, right, onClick }: L
   return (
     <View
       onClick={onClick}
+      hoverClass="none"
+      hoverStyle={{ backgroundColor: '#f5f8ff' }}
       style={{
         display: 'flex',
         alignItems: 'center',
         minHeight: '48px',
         padding: `${spacing.sm}px ${spacing.md}px`,
         backgroundColor: '#fff',
-        borderBottom: `0px solid ${borderColor}`,
+        borderBottom: `1px solid ${borderColor}`,
       }}
     >
       {icon ? (

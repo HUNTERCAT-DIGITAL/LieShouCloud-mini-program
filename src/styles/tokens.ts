@@ -49,14 +49,14 @@ export const spacing = {
   xxl: 32,
 } as const;
 
-/** 字号（mobile tokens 原值） */
+/** 字号（移动端标准 · px） */
 export const fontSize = {
-  xs: 11,
-  sm: 12,
-  md: 14,
-  lg: 16,
-  xl: 20,
-  xxl: 22,
+  xs: 12,
+  sm: 13,
+  md: 15,
+  lg: 17,
+  xl: 22,
+  xxl: 26,
 } as const;
 
 /** 圆角（mobile tokens 原值） */

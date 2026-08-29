@@ -27,7 +27,7 @@ const inputStyle = {
   padding: `0 ${spacing.md}px`,
   marginBottom: `${spacing.md}px`,
   borderRadius: `${radius.md}px`,
-  border: `0px solid ${borderColor}`,
+  border: `1px solid ${borderColor}`,
   backgroundColor: cardColor,
   fontSize: `${fontSize.md}px`,
   color: textColor.main,
