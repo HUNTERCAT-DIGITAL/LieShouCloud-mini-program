@@ -7,6 +7,7 @@ import type { MiniEdition } from './types';
 export const genericEdition: MiniEdition = {
   id: 'generic',
   brandName: 'LieShouCloud',
+  login: { required: true, mode: 'password' },
   industries: [],
   hiddenMenus: [],
 };

@@ -6,8 +6,9 @@
  */
 import { Button, Input, Text, View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { getEdition } from "../../config/editions";
 import { isApiError } from "../../services/auth";
 import { useAuthStore } from "../../stores/auth";
 import { useI18n } from "../../hooks/useI18n";
@@ -21,6 +22,14 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  // 端薄壳化(2026-08-29): login.required=false 游客直达(跳过登录, 直接进首页/客户首页)
+  useEffect(() => {
+    const edition = getEdition();
+    if (edition.login?.required === false) {
+      Taro.reLaunch({ url: edition.homePath ?? "/pages/workbench/workbench" });
+    }
+  }, []);
 
   const onSubmit = async () => {
     if (!username || !password) {
