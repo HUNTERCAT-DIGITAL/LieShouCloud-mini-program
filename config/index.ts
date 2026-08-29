@@ -56,6 +56,11 @@ export default defineConfig({
     options: {},
   },
   framework: "react",
+  // webpack5 显式声明（缺省时 config.compiler 非对象 → H5 prebundleOptions 为 undefined 崩溃）
+  compiler: {
+    type: 'webpack5',
+    prebundle: { enable: false },
+  },
   compilerOptions: {
     alias,
   },
@@ -78,8 +83,25 @@ export default defineConfig({
     },
   },
   // H5 配置（按需启用 --type h5）
+  // publicPath 支持环境变量覆盖（子路径部署预览，如 TARO_APP_H5_PUBLIC_PATH=/mini-program/）
   h5: {
-    publicPath: "/",
+    // 共享包源码（open/*）+ 客户包（packages/<client>）需要 babel 编译（webpack 默认只编译 sourceRoot）
+    compile: {
+      include: [
+        resolve(projectRoot, 'open/contract-api/src'),
+        resolve(projectRoot, 'open/contract-config/src'),
+        resolve(projectRoot, 'open/contract-types/src'),
+        resolve(projectRoot, 'open/core-web/src'),
+        resolve(projectRoot, 'open/i18n/src'),
+        ...clientIncludes,
+      ],
+    },
+    webpackChain(chain) {
+      for (const [name, src] of Object.entries(alias)) {
+        chain.resolve.alias.set(name, src);
+      }
+    },
+    publicPath: process.env.TARO_APP_H5_PUBLIC_PATH?.trim() || "/",
     staticDirectory: "static",
     output: { filename: "js/[name].[hash:8].js" },
     miniCssExtractPluginOption: { ignoreOrder: true, filename: "css/[name].[hash].css" },
@@ -91,6 +113,6 @@ export default defineConfig({
         config: { namingPattern: "module", generateScopedName: "[name]__[local]___[hash:base64:5]" },
       },
     },
-    devServer: { port: 10086, host: "0.0.0.0", open: false },
+    devServer: { port: 21303, host: "0.0.0.0", open: false, hot: false },
   },
 });
