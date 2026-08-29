@@ -22,7 +22,7 @@ export default function HealthBanner({
         flexDirection: 'column',
         padding: `${spacing.md}px ${spacing.lg}px`,
         borderRadius: `${radius.lg}px`,
-        backgroundColor: meta.color + '1f',
+        backgroundColor: meta.bg, // rgba 浅底（微信 CSS 兼容）
         borderLeft: `4px solid ${meta.color}`,
       }}
     >

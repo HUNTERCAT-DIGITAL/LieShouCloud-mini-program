@@ -29,12 +29,12 @@ export const statusColor = {
   offline: '#bfbfbf', // 离线灰
 } as const;
 
-/** 状态元信息（文案 + 颜色，供 StatusBadge 等使用） */
+/** 状态元信息（文案 + 颜色 + 浅底，供 StatusBadge/HealthBanner 使用） */
 export const STATUS_META = {
-  error: { text: '紧急', color: statusColor.error },
-  warning: { text: '警告', color: statusColor.warning },
-  success: { text: '正常', color: statusColor.success },
-  offline: { text: '离线', color: statusColor.offline },
+  error: { text: '紧急', color: statusColor.error, bg: 'rgba(245, 34, 45, 0.08)' },
+  warning: { text: '警告', color: statusColor.warning, bg: 'rgba(250, 173, 20, 0.08)' },
+  success: { text: '正常', color: statusColor.success, bg: 'rgba(82, 196, 26, 0.08)' },
+  offline: { text: '离线', color: statusColor.offline, bg: 'rgba(191, 191, 191, 0.08)' },
 } as const;
 export type StatusKey = keyof typeof STATUS_META;
 

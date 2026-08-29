@@ -17,11 +17,11 @@ export default function StatusBadge({ status, text, size = 'sm' }: StatusBadgePr
   return (
     <View
       style={{
-        display: 'inline-flex',
+        display: 'flex',
         alignItems: 'center',
         padding: `${spacing.xxs}px ${padH}px`,
         borderRadius: `${radius.sm}px`,
-        backgroundColor: meta.color + '1f', // 8% 透明浅底（#rrggbbaa）
+        backgroundColor: meta.bg, // 浅底（rgba，兼容微信 CSS；8 位 hex #rrggbbaa 有兼容性风险）
       }}
     >
       <Text style={{ fontSize: `${font}px`, lineHeight: 1.4, color: meta.color, fontWeight: 600 }}>
