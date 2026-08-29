@@ -1,40 +1,40 @@
 /**
- * 启动页（端自身骨架）· 品牌 + 平台标识 + 版本 + 登录用户 + 后端连通性检查。
- * 未登录（含登出）→ 回登录页；后续业务页面从零装配，本页是端能力验证锚点。
+ * 启动页（端自身骨架 · 用户/登录态来自 core-web useAuthStore）
+ * 品牌 + 平台标识 + 版本 + 登录用户 + 后端连通性检查（GET /api/auth/me）。
  */
 import { useEffect, useState } from 'react';
 import { Button, Text, View } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
+import { useAuthStore } from '@lieshoucloud/core-web';
 
 import { getEdition } from '../../config/editions';
 import { APP_VERSION } from '../../config/version';
-import { fetchMe, getUser, isLoggedIn, logout, type SessionUser } from '../../lib/auth';
-import './home.css';
 
 export default function HomePage() {
   const edition = getEdition();
-  const [user, setUser] = useState<SessionUser | null>(() => getUser());
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const user = useAuthStore((s) => s.user);
+  const fetchMe = useAuthStore((s) => s.fetchMe);
+  const logout = useAuthStore((s) => s.logout);
   const [checking, setChecking] = useState(false);
   const [checkMsg, setCheckMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
   useDidShow(() => {
-    if (!isLoggedIn()) Taro.reLaunch({ url: '/pages/login/login' });
+    const required = edition.login?.required !== false;
+    if (required && !isAuthenticated) Taro.reLaunch({ url: '/pages/login/login' });
   });
 
   useEffect(() => {
-    fetchMe()
-      .then(setUser)
-      .catch(() => {
-        /* 静默：守卫已兜底 */
-      });
-  }, []);
+    fetchMe().catch(() => {
+      /* 静默：守卫已兜底 */
+    });
+  }, [fetchMe]);
 
   async function runCheck(): Promise<void> {
     setChecking(true);
     setCheckMsg(null);
     try {
       const me = await fetchMe();
-      setUser(me);
       setCheckMsg({
         ok: true,
         text: `后端连通正常（${me.username ?? '已登录'} @ ${me.tenantCode ?? '-'}）`,
@@ -73,7 +73,7 @@ export default function HomePage() {
         <View className="home-row">
           <Text className="home-key">用户</Text>
           <Text className="home-value">
-            {user?.displayName || user?.username || '未登录'}
+            {user?.username || '未登录'}
             {user?.tenantName ? `（${user.tenantName}）` : ''}
           </Text>
         </View>

@@ -1,8 +1,9 @@
 /**
- * Taro 主配置 (weapp / h5 共用) · 端自身骨架
+ * Taro 主配置 (weapp / h5 共用) · 端自身骨架 + 统一上游（2026-08）
  *
- * 上游共享模块（contract-api / core-web / ui-native 等）待统一重构后接入，
- * 当前仅端自身：alias 只有 @ → src。
+ * monorepo 适配:
+ *  - alias 必须与 tsconfig.json paths 完全一致
+ *  - 共享包源码（open/*）需加入 compile.include，webpack 才能用 babel 编译
  */
 import { resolve } from "path";
 import { defineConfig } from "@tarojs/cli";
@@ -11,6 +12,11 @@ const projectRoot = resolve(__dirname, "..");
 
 const alias = {
   "@": resolve(projectRoot, "src"),
+  "@lieshoucloud/contract-api": resolve(projectRoot, "open/contract-api/src"),
+  "@lieshoucloud/contract-config": resolve(projectRoot, "open/contract-config/src"),
+  "@lieshoucloud/contract-types": resolve(projectRoot, "open/contract-types/src"),
+  "@lieshoucloud/core-web": resolve(projectRoot, "open/core-web/src"),
+  "@lieshoucloud/i18n": resolve(projectRoot, "open/i18n/src"),
 };
 
 export default defineConfig({
@@ -42,6 +48,15 @@ export default defineConfig({
       for (const [name, src] of Object.entries(alias)) {
         chain.resolve.alias.set(name, src);
       }
+    },
+    compile: {
+      include: [
+        resolve(projectRoot, "open/contract-api/src"),
+        resolve(projectRoot, "open/contract-config/src"),
+        resolve(projectRoot, "open/contract-types/src"),
+        resolve(projectRoot, "open/core-web/src"),
+        resolve(projectRoot, "open/i18n/src"),
+      ],
     },
   },
   // H5 配置（按需启用 --type h5）

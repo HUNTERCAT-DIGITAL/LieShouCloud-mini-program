@@ -1,10 +1,10 @@
 /**
- * 版别解析（端自身骨架）：
- * 构建期 `TARO_APP_EDITION` 注入（如 TARO_APP_EDITION=legalmind pnpm dev:weapp）→ generic 兜底。
- * 客户差异的页面级注入走 ./extra.ts（EXTRA_HOME/EXTRA_PAGES）。
+ * 版别解析（端自身骨架 · 类型来自共享契约 contract-types）：
+ * 构建期 `TARO_APP_EDITION` 注入 → generic 兜底。客户页面级注入走 ./extra.ts。
  */
+import type { EditionConfig } from '@lieshoucloud/contract-types';
+
 import { genericEdition } from './generic';
-import type { EditionConfig } from './types';
 
 export function resolveEditionId(): string {
   const env = process.env.TARO_APP_EDITION as string | undefined;
