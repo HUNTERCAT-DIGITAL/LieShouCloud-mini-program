@@ -11,6 +11,7 @@ import { useLaunch, getStorageSync, setStorageSync, removeStorageSync, navigateT
 import { configureCore, useAuthStore } from "@lieshoucloud/core-web";
 
 import { MINI_API_BASE, configureApiBaseUrl } from "./services/api";
+import { restoreLocale } from "./hooks/useI18n";
 
 // —— 注入 core-web 端口（业务核心层 · 2026-09 铺开）——
 configureCore({
@@ -62,6 +63,7 @@ configureApiBaseUrl();
 
 function App({ children }: PropsWithChildren) {
   useLaunch(() => {
+    restoreLocale(); // 恢复上次语言（首帧前）
     // eslint-disable-next-line no-console -- 启动日志（有意保留）
     console.log("[LieShou Cloud Mini] App launched.");
   });

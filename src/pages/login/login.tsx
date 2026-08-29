@@ -10,19 +10,21 @@ import { useState } from "react";
 
 import { isApiError } from "../../services/auth";
 import { useAuthStore } from "../../stores/auth";
+import { useI18n } from "../../hooks/useI18n";
 import { colors } from "../../theme/colors";
 
 import "./login.css";
 
 export default function Login() {
   const login = useAuthStore((s) => s.login);
+  const { locale, setLocale, t } = useI18n();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const onSubmit = async () => {
     if (!username || !password) {
-      Taro.showToast({ title: "请输入用户名和密码", icon: "none" });
+      Taro.showToast({ title: t("common.login.empty"), icon: "none" });
       return;
     }
     setSubmitting(true);
@@ -31,7 +33,7 @@ export default function Login() {
       Taro.reLaunch({ url: "/pages/workbench/workbench" });
     } catch (e) {
       const msg = isApiError(e) ? e.message : String(e);
-      Taro.showToast({ title: `登录失败: ${msg}`, icon: "none" });
+      Taro.showToast({ title: `${t("common.login.failed")}: ${msg}`, icon: "none" });
     } finally {
       setSubmitting(false);
     }
@@ -50,20 +52,51 @@ export default function Login() {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
+          justifyContent: "space-between",
           marginTop: "48rpx",
           marginBottom: "64rpx",
         }}
       >
-        <View
-          style={{
-            width: "20rpx",
-            height: "20rpx",
-            borderRadius: "50%",
-            backgroundColor: colors.primary,
-            marginRight: "16rpx",
-          }}
-        />
-        <Text style={{ fontSize: "32rpx", fontWeight: 600 }}>LieShou Cloud</Text>
+        <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              width: "20rpx",
+              height: "20rpx",
+              borderRadius: "50%",
+              backgroundColor: colors.primary,
+              marginRight: "16rpx",
+            }}
+          />
+          <Text style={{ fontSize: "32rpx", fontWeight: 600 }}>LieShou Cloud</Text>
+        </View>
+        {/* 语言切换 */}
+        <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+          <Text
+            onClick={() => setLocale("zh-CN")}
+            style={{
+              fontSize: "26rpx",
+              padding: "4rpx 16rpx",
+              borderRadius: "999rpx",
+              backgroundColor: locale === "zh-CN" ? colors.primary : "transparent",
+              color: locale === "zh-CN" ? "#fff" : colors.textSecondary,
+            }}
+          >
+            中文
+          </Text>
+          <Text
+            onClick={() => setLocale("en-US")}
+            style={{
+              fontSize: "26rpx",
+              marginLeft: "8rpx",
+              padding: "4rpx 16rpx",
+              borderRadius: "999rpx",
+              backgroundColor: locale === "en-US" ? colors.primary : "transparent",
+              color: locale === "en-US" ? "#fff" : colors.textSecondary,
+            }}
+          >
+            EN
+          </Text>
+        </View>
       </View>
 
       <Text style={{ fontSize: "56rpx", fontWeight: 700, color: colors.primary, marginBottom: "8rpx" }}>
@@ -77,7 +110,7 @@ export default function Login() {
       </Text>
 
       <View style={{ marginBottom: "32rpx" }}>
-        <Text style={{ fontSize: "28rpx", color: colors.text, marginBottom: "12rpx" }}>用户名</Text>
+        <Text style={{ fontSize: "28rpx", color: colors.text, marginBottom: "12rpx" }}>{t("common.login.username")}</Text>
         <Input
           value={username}
           onInput={(e) => setUsername(e.detail.value)}
@@ -93,7 +126,7 @@ export default function Login() {
         />
       </View>
       <View style={{ marginBottom: "32rpx" }}>
-        <Text style={{ fontSize: "28rpx", color: colors.text, marginBottom: "12rpx" }}>密码</Text>
+        <Text style={{ fontSize: "28rpx", color: colors.text, marginBottom: "12rpx" }}>{t("common.login.password")}</Text>
         <Input
           value={password}
           onInput={(e) => setPassword(e.detail.value)}
@@ -123,7 +156,7 @@ export default function Login() {
           marginTop: "24rpx",
         }}
       >
-        登录
+        {t("common.login.submit")}
       </Button>
     </View>
   );
