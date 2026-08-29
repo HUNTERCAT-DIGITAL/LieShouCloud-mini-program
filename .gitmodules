@@ -16,3 +16,6 @@
 [submodule "open/ui-native"]
 	path = open/ui-native
 	url = git@github.com:HUNTERCAT-DIGITAL/lieshou-ui-native.git
+[submodule "open/i18n"]
+	path = open/i18n
+	url = git@github.com:HUNTERCAT-DIGITAL/lieshou-i18n.git
