@@ -9,6 +9,8 @@ import { borderColor, fontSize, radius, spacing, textColor } from '../styles/tok
 export interface ListCellProps {
   /** 图标底（emoji / 首字符 / 自定义节点），建议 36px 圆角 */
   icon?: ReactNode;
+  /** 图标底背景色（缺省浅蓝；告警可用状态色浅底） */
+  iconBg?: string;
   title: string;
   description?: string;
   /** 右侧插槽（状态徽章 / 数值 / 箭头） */
@@ -16,7 +18,7 @@ export interface ListCellProps {
   onClick?: () => void;
 }
 
-export default function ListCell({ icon, title, description, right, onClick }: ListCellProps) {
+export default function ListCell({ icon, iconBg, title, description, right, onClick }: ListCellProps) {
   return (
     <View
       onClick={onClick}
@@ -36,13 +38,13 @@ export default function ListCell({ icon, title, description, right, onClick }: L
           style={{
             width: '36px',
             height: '36px',
-            borderRadius: `${radius.md}px`,
+            borderRadius: '18px',
             marginRight: `${spacing.md}px`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: `${fontSize.xl}px`,
-            backgroundColor: '#f0f4ff',
+            backgroundColor: iconBg ?? '#f0f4ff',
             flexShrink: 0,
           }}
         >
