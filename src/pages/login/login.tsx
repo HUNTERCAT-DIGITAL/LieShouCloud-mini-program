@@ -45,7 +45,8 @@ export default function LoginPage() {
 
   useDidShow(() => {
     // 客户启动页（EXTRA_HOME）存在时，登录成功/免登回客户首页；否则骨架 home
-    const home = EXTRA_HOME ?? '/pages/home/home';
+    // ⚠️ reLaunch 需要绝对路由（前导 /）；EXTRA_HOME 在 pages 数组里是不带 / 的，这里补上
+    const home = EXTRA_HOME ? `/${EXTRA_HOME.replace(/^\//, '')}` : '/pages/home/home';
     if (edition.login?.required === false || isAuthenticated) {
       Taro.reLaunch({ url: home });
     }
@@ -60,7 +61,7 @@ export default function LoginPage() {
     setError('');
     try {
       await login(username.trim(), password, tenantCode.trim() || undefined);
-      Taro.reLaunch({ url: EXTRA_HOME ?? '/pages/home/home' });
+      Taro.reLaunch({ url: EXTRA_HOME ? `/${EXTRA_HOME.replace(/^\//, '')}` : '/pages/home/home' });
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
