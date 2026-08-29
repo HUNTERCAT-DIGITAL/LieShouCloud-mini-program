@@ -10,11 +10,11 @@
 const DEFAULT_API_BASE = 'https://dev.lieshoucloud.huntercat.cn';
 
 function resolveBaseUrl(): string {
-  // typeof 守卫：浏览器运行时 process 未定义，短路返回 undefined（避免 ReferenceError / false.trim 崩溃）
-  const fromEnv =
-    (typeof process !== 'undefined' && process.env?.TARO_APP_API_BASE) || undefined;
+  // 构建期注入：process.env.* 由 defineConstants 替换为字面量（浏览器运行时无 process）
+  // H5（TARO_ENV=h5）→ 空串，走同源反代（/api → gateway）
+  const fromEnv = process.env.TARO_APP_API_BASE || undefined;
   if (fromEnv?.trim()) return fromEnv.trim().replace(/\/+$/, '');
-  const isH5 = typeof process !== 'undefined' && process.env?.TARO_ENV === 'h5';
+  const isH5 = process.env.TARO_ENV === 'h5';
   return isH5 ? '' : DEFAULT_API_BASE;
 }
 

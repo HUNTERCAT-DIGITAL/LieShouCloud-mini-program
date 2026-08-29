@@ -51,8 +51,11 @@ export default defineConfig({
   outputRoot: "dist",
   plugins: ["@tarojs/plugin-framework-react"],
   defineConstants: {
-    // 注入 TARO_ENV（共享包 api.ts 等使用 process.env.TARO_ENV；webpack5 不自动 polyfill process）
+    // 构建期注入（webpack5 DefinePlugin 替换，浏览器运行时无 process 全局）：
+    // api.ts / editions 直接读 process.env.*，替换后为字面量，无 typeof 守卫短路问题
     'process.env.TARO_ENV': JSON.stringify(process.env.TARO_ENV || ''),
+    'process.env.TARO_APP_API_BASE': JSON.stringify(process.env.TARO_APP_API_BASE || ''),
+    'process.env.TARO_APP_EDITION': JSON.stringify(process.env.TARO_APP_EDITION || ''),
   },
   copy: {
     patterns: [],

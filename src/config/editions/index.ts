@@ -7,8 +7,8 @@ import type { EditionConfig } from '@lieshoucloud/contract-types';
 import { genericEdition } from './generic';
 
 export function resolveEditionId(): string {
-  // typeof 守卫：浏览器运行时 process 未定义，短路返回 undefined（webpack5 不 polyfill process）
-  const env = (typeof process !== 'undefined' && process.env?.TARO_APP_EDITION) || undefined;
+  // 构建期注入：process.env.TARO_APP_EDITION 由 defineConstants 替换（浏览器运行时无 process）
+  const env = process.env.TARO_APP_EDITION || undefined;
   if (env?.trim()) return env.trim();
   return 'generic';
 }
