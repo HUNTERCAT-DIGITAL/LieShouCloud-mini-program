@@ -3,7 +3,7 @@ import type { EditionConfig } from '@lieshoucloud/contract-types';
 
 export const genericEdition: EditionConfig = {
   id: 'generic',
-  brandName: '猎手云',
+  brandName: '物联网云平台',
   slogan: '数字化平台 · 小程序',
   tenantCode: 'default',
   login: { required: true, mode: 'password' },
