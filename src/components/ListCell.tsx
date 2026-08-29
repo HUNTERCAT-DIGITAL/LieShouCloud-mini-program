@@ -24,7 +24,7 @@ export default function ListCell({ icon, title, description, right, onClick }: L
         display: 'flex',
         alignItems: 'center',
         minHeight: '96rpx',
-        padding: `${spacing.sm}px ${spacing.md}px`.replace('px', 'rpx'),
+        padding: `${spacing.sm}rpx ${spacing.md}rpx`,
         backgroundColor: '#fff',
         borderBottom: `1rpx solid ${borderColor}`,
       }}

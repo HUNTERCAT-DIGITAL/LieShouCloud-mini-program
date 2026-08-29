@@ -19,7 +19,7 @@ export default function FilterChips({
   onChange: (key: string) => void;
 }) {
   return (
-    <View style={{ display: 'flex', flexWrap: 'wrap', gap: `${spacing.sm}rpx`, padding: `0 ${spacing.md}rpx` }}>
+    <View style={{ display: 'flex', flexWrap: 'wrap', padding: `0 ${spacing.md}rpx` }}>
       {items.map((it) => {
         const active = it.key === value;
         return (
@@ -27,6 +27,7 @@ export default function FilterChips({
             key={it.key}
             onClick={() => onChange(it.key)}
             style={{
+              margin: `0 ${spacing.sm}rpx ${spacing.sm}rpx 0`,
               padding: `${spacing.xs}rpx ${spacing.md}rpx`,
               borderRadius: `${radius.lg}rpx`,
               backgroundColor: active ? brandColor : '#f0f0f0',
