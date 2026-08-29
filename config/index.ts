@@ -50,7 +50,10 @@ export default defineConfig({
   sourceRoot: "src",
   outputRoot: "dist",
   plugins: ["@tarojs/plugin-framework-react"],
-  defineConstants: {},
+  defineConstants: {
+    // 注入 TARO_ENV（共享包 api.ts 等使用 process.env.TARO_ENV；webpack5 不自动 polyfill process）
+    'process.env.TARO_ENV': JSON.stringify(process.env.TARO_ENV || ''),
+  },
   copy: {
     patterns: [],
     options: {},
