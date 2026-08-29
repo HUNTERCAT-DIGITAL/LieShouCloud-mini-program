@@ -9,6 +9,7 @@ import Taro, { useDidShow } from '@tarojs/taro';
 import { useAuthStore } from '@lieshoucloud/core-web';
 
 import { getEdition } from '../../config/editions';
+import { EXTRA_HOME } from '../../config/editions/extra';
 import {
   bgColor,
   borderColor,
@@ -43,8 +44,10 @@ export default function LoginPage() {
   const [submitting, setSubmitting] = useState(false);
 
   useDidShow(() => {
+    // 客户启动页（EXTRA_HOME）存在时，登录成功/免登回客户首页；否则骨架 home
+    const home = EXTRA_HOME ?? '/pages/home/home';
     if (edition.login?.required === false || isAuthenticated) {
-      Taro.reLaunch({ url: '/pages/home/home' });
+      Taro.reLaunch({ url: home });
     }
   });
 
@@ -57,7 +60,7 @@ export default function LoginPage() {
     setError('');
     try {
       await login(username.trim(), password, tenantCode.trim() || undefined);
-      Taro.reLaunch({ url: '/pages/home/home' });
+      Taro.reLaunch({ url: EXTRA_HOME ?? '/pages/home/home' });
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
