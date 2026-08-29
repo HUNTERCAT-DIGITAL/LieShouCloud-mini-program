@@ -11,8 +11,48 @@ import {
   useLaunch,
 } from '@tarojs/taro';
 import { configureCore, useAuthStore } from '@lieshoucloud/core-web';
+import {
+  setAccessTokenProvider,
+  setBaseUrl,
+  setRequestAdapter,
+  setRefreshTokensProvider,
+  setUnauthorizedHandler,
+} from '@lieshoucloud/contract-api';
 
 import { API_BASE } from './config/api';
+
+// —— contract-api 模块级单例配置（客户包 dwjk/api 等走模块级 request 需要；ApiPort 走实例不受影响）——
+setBaseUrl(API_BASE);
+// 小程序无 fetch 全局：注入 Taro.request 适配器（web 端默认 fetch 不受影响）
+setRequestAdapter(async (url, init) => {
+  const res = await request({
+    url,
+    method: (init.method ?? 'GET') as 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE',
+    data: init.body,
+    header: (init.headers ?? {}) as Record<string, string>,
+  });
+  return {
+    status: res.statusCode,
+    ok: res.statusCode >= 200 && res.statusCode < 300,
+    json: async () => res.data,
+    text: async () => (typeof res.data === 'string' ? res.data : JSON.stringify(res.data)),
+    blob: async () => {
+      throw new Error('blob 不支持（小程序端）');
+    },
+  };
+});
+setAccessTokenProvider(() => useAuthStore.getState().accessToken);
+setRefreshTokensProvider(async () => {
+  try {
+    await useAuthStore.getState().refresh();
+    return true;
+  } catch {
+    return false;
+  }
+});
+setUnauthorizedHandler(() => {
+  useAuthStore.getState().logout();
+});
 
 // —— 注入 core-web 端口（统一登录态/存储/通知/导航）——
 configureCore({
