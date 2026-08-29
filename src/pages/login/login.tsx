@@ -1,6 +1,7 @@
 /**
  * 登录页（端自身骨架 · 登录态来自 core-web useAuthStore）
  * 租户 + 账号 + 密码 → core-web login（POST /api/auth/login）。
+ * UI 对齐 mobile-ui 规范：设计令牌 + 品牌 hero。
  */
 import { useState } from 'react';
 import { Button, Input, Text, View } from '@tarojs/components';
@@ -8,6 +9,28 @@ import Taro, { useDidShow } from '@tarojs/taro';
 import { useAuthStore } from '@lieshoucloud/core-web';
 
 import { getEdition } from '../../config/editions';
+import {
+  bgColor,
+  borderColor,
+  brandColor,
+  cardColor,
+  fontSize,
+  radius,
+  spacing,
+  statusColor,
+  textColor,
+} from '../../styles/tokens';
+
+const inputStyle = {
+  height: '88rpx',
+  padding: `0 ${spacing.md}rpx`,
+  marginBottom: `${spacing.md}rpx`,
+  borderRadius: `${radius.md}rpx`,
+  border: `1rpx solid ${borderColor}`,
+  backgroundColor: cardColor,
+  fontSize: `${fontSize.md}rpx`,
+  color: textColor.main,
+} as const;
 
 export default function LoginPage() {
   const edition = getEdition();
@@ -43,33 +66,80 @@ export default function LoginPage() {
   }
 
   return (
-    <View className="login-page">
-      <View className="login-brand">
-        <Text className="login-title">{edition.brandName}</Text>
-        {edition.slogan && <Text className="login-slogan">{edition.slogan}</Text>}
+    <View
+      style={{
+        minHeight: '100vh',
+        backgroundColor: bgColor,
+        padding: `${spacing.xxl}rpx ${spacing.xl}rpx`,
+      }}
+    >
+      {/* 品牌 hero */}
+      <View style={{ textAlign: 'center', padding: `${spacing.xl}rpx 0 ${spacing.xxl}rpx` }}>
+        <Text
+          style={{
+            display: 'block',
+            fontSize: '56rpx',
+            fontWeight: 700,
+            color: brandColor,
+          }}
+        >
+          {edition.brandName}
+        </Text>
+        {edition.slogan ? (
+          <Text
+            style={{
+              display: 'block',
+              marginTop: `${spacing.sm}rpx`,
+              fontSize: `${fontSize.sm}rpx`,
+              color: textColor.secondary,
+            }}
+          >
+            {edition.slogan}
+          </Text>
+        ) : null}
       </View>
-      <View className="login-form">
+
+      {/* 表单 */}
+      <View>
         <Input
-          className="login-input"
+          style={inputStyle}
           value={tenantCode}
           placeholder="租户编码"
+          placeholderStyle={`color: ${textColor.assist}`}
           onInput={(e) => setTenantCode(e.detail.value)}
         />
         <Input
-          className="login-input"
+          style={inputStyle}
           value={username}
           placeholder="用户名"
+          placeholderStyle={`color: ${textColor.assist}`}
           onInput={(e) => setUsername(e.detail.value)}
         />
         <Input
-          className="login-input"
+          style={inputStyle}
           password
           value={password}
           placeholder="密码"
+          placeholderStyle={`color: ${textColor.assist}`}
           onInput={(e) => setPassword(e.detail.value)}
         />
-        {error && <Text className="login-error">{error}</Text>}
-        <Button className="login-btn" loading={submitting} onClick={handleLogin}>
+        {error ? (
+          <Text style={{ display: 'block', marginBottom: `${spacing.sm}rpx`, fontSize: `${fontSize.sm}rpx`, color: statusColor.error }}>
+            {error}
+          </Text>
+        ) : null}
+        <Button
+          loading={submitting}
+          onClick={handleLogin}
+          style={{
+            marginTop: `${spacing.sm}rpx`,
+            backgroundColor: brandColor,
+            color: '#fff',
+            fontSize: `${fontSize.lg}rpx`,
+            fontWeight: 600,
+            borderRadius: `${radius.lg}rpx`,
+          }}
+        >
           登 录
         </Button>
       </View>
