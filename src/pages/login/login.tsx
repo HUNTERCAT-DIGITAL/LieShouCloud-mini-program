@@ -4,10 +4,10 @@
  * 单租户（hideTenantInput）：隐藏租户输入框，默认租户静默使用 edition.tenantCode ?? 'default'。
  * 背景撞色对齐 mobile-web H5 登录页：上蓝（品牌白字）→ 下灰（表单白卡）。
  */
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button, Input, Text, View } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
-import { useAuthStore } from '@lieshoucloud/core-web';
+import { loginWithCode, sendCode, useAuthStore } from '@lieshoucloud/core-web';
 
 import { getEdition } from '../../config/editions';
 import { EXTRA_HOME } from '../../config/editions/extra';
@@ -57,6 +57,71 @@ export default function LoginPage() {
   const [remember, setRemember] = useState(remembered?.remember ?? false);
   const [username, setUsername] = useState(remembered?.username ?? '');
   const [password, setPassword] = useState(remembered?.password ?? '');
+  // 登录方式：password 账号密码 / sms 短信验证码
+  const [mode, setMode] = useState<'password' | 'sms'>('password');
+  const [phone, setPhone] = useState('');
+  const [smsCode, setSmsCode] = useState('');
+  const [sendingCode, setSendingCode] = useState(false);
+  const [codeCountdown, setCodeCountdown] = useState(0);
+  const codeTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (codeTimer.current) clearInterval(codeTimer.current);
+    };
+  }, []);
+
+  function startCodeCountdown(sec = 60): void {
+    setCodeCountdown(sec);
+    if (codeTimer.current) clearInterval(codeTimer.current);
+    codeTimer.current = setInterval(() => {
+      setCodeCountdown((c) => {
+        if (c <= 1) {
+          if (codeTimer.current) clearInterval(codeTimer.current);
+          return 0;
+        }
+        return c - 1;
+      });
+    }, 1000);
+  }
+
+  async function handleSendCode(): Promise<void> {
+    if (!/^1\d{10}$/.test(phone.trim())) {
+      setError('请输入正确的手机号');
+      return;
+    }
+    setError('');
+    setSendingCode(true);
+    try {
+      await sendCode('SMS', phone.trim(), 'LOGIN');
+      startCodeCountdown();
+      Taro.showToast({ title: '验证码已发送', icon: 'success', duration: 1500 });
+    } catch (e) {
+      const raw = e instanceof Error ? e.message : e;
+      setError(typeof raw === 'string' && raw && raw !== '[object Object]' ? raw : String(e));
+    } finally {
+      setSendingCode(false);
+    }
+  }
+
+  async function handleSmsLogin(): Promise<void> {
+    if (!/^1\d{10}$/.test(phone.trim()) || !smsCode.trim()) {
+      setError('请输入手机号和验证码');
+      return;
+    }
+    setError('');
+    setSubmitting(true);
+    try {
+      const token = await loginWithCode(tenantCode.trim() || undefined, 'SMS', phone.trim(), smsCode.trim());
+      useAuthStore.getState().setSession(token);
+      Taro.reLaunch({ url: EXTRA_HOME ? `/${EXTRA_HOME.replace(/^\//, '')}` : '/pages/home/home' });
+    } catch (e) {
+      const raw = e instanceof Error ? e.message : e;
+      setError(typeof raw === 'string' && raw && raw !== '[object Object]' ? raw : String(e));
+    } finally {
+      setSubmitting(false);
+    }
+  }
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -127,52 +192,105 @@ export default function LoginPage() {
           padding: `${spacing.xl}px`,
         }}
       >
-        {/* 单租户（hideTenantInput）：租户输入框隐藏，默认租户静默使用 edition.tenantCode ?? 'default' */}
-        <Input
-          style={inputStyle}
-          value={username}
-          placeholder="用户名"
-          placeholderStyle={`color: ${textColor.assist}`}
-          onInput={(e) => setUsername(e.detail.value)}
-        />
-        <Input
-          style={inputStyle}
-          password
-          value={password}
-          placeholder="密码"
-          placeholderStyle={`color: ${textColor.assist}`}
-          onInput={(e) => setPassword(e.detail.value)}
-        />
-        {/* 记住密码 + 忘记密码 */}
-        <View style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: `${spacing.sm}px` }}>
+        {/* 登录方式切换 */}
+        <View style={{ display: 'flex', marginBottom: `${spacing.md}px` }}>
           <View
-            onClick={() => setRemember(!remember)}
-            style={{ display: 'flex', alignItems: 'center' }}
+            onClick={() => setMode('password')}
+            style={{ flex: 1, textAlign: 'center', padding: `${spacing.sm}px 0`, borderRadius: `${radius.md}px`, backgroundColor: mode === 'password' ? brandColor : '#f0f0f0', marginRight: `${spacing.sm}px` }}
           >
-            <View
-              style={{
-                width: '20px',
-                height: '20px',
-                borderRadius: `${radius.sm}px`,
-                border: remember ? 'none' : '1px solid #d9d9d9',
-                backgroundColor: remember ? brandColor : '#fff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: `${spacing.xs}px`,
-              }}
-            >
-              {remember ? <Text style={{ color: '#fff', fontSize: '13px', lineHeight: 1 }}>✓</Text> : null}
-            </View>
-            <Text style={{ fontSize: `${fontSize.sm}px`, color: textColor.secondary }}>记住密码</Text>
+            <Text style={{ fontSize: `${fontSize.md}px`, color: mode === 'password' ? '#fff' : textColor.secondary, fontWeight: mode === 'password' ? 600 : 400 }}>账号密码</Text>
           </View>
-          <Text
-            onClick={() => Taro.navigateTo({ url: '/pages/forgot-password/index' })}
-            style={{ fontSize: `${fontSize.sm}px`, color: brandColor }}
+          <View
+            onClick={() => setMode('sms')}
+            style={{ flex: 1, textAlign: 'center', padding: `${spacing.sm}px 0`, borderRadius: `${radius.md}px`, backgroundColor: mode === 'sms' ? brandColor : '#f0f0f0' }}
           >
-            忘记密码
-          </Text>
+            <Text style={{ fontSize: `${fontSize.md}px`, color: mode === 'sms' ? '#fff' : textColor.secondary, fontWeight: mode === 'sms' ? 600 : 400 }}>短信验证码</Text>
+          </View>
         </View>
+
+        {mode === 'password' ? (
+          <View>
+            <Input
+              style={inputStyle}
+              value={username}
+              placeholder="用户名"
+              placeholderStyle={`color: ${textColor.assist}`}
+              onInput={(e) => setUsername(e.detail.value)}
+            />
+            <Input
+              style={inputStyle}
+              password
+              value={password}
+              placeholder="密码"
+              placeholderStyle={`color: ${textColor.assist}`}
+              onInput={(e) => setPassword(e.detail.value)}
+            />
+            {/* 记住密码 + 忘记密码 */}
+            <View style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: `${spacing.sm}px` }}>
+              <View onClick={() => setRemember(!remember)} style={{ display: 'flex', alignItems: 'center' }}>
+                <View
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: `${radius.sm}px`,
+                    border: remember ? 'none' : '1px solid #d9d9d9',
+                    backgroundColor: remember ? brandColor : '#fff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: `${spacing.xs}px`,
+                  }}
+                >
+                  {remember ? <Text style={{ color: '#fff', fontSize: '13px', lineHeight: 1 }}>✓</Text> : null}
+                </View>
+                <Text style={{ fontSize: `${fontSize.sm}px`, color: textColor.secondary }}>记住密码</Text>
+              </View>
+              <Text
+                onClick={() => Taro.navigateTo({ url: '/pages/forgot-password/index' })}
+                style={{ fontSize: `${fontSize.sm}px`, color: brandColor }}
+              >
+                忘记密码
+              </Text>
+            </View>
+          </View>
+        ) : (
+          <View>
+            <Input
+              style={inputStyle}
+              value={phone}
+              placeholder="手机号"
+              placeholderStyle={`color: ${textColor.assist}`}
+              onInput={(e) => setPhone(e.detail.value)}
+            />
+            <View style={{ display: 'flex', marginBottom: `${spacing.md}px` }}>
+              <Input
+                style={{ ...inputStyle, flex: 1, marginRight: `${spacing.sm}px`, marginBottom: 0 }}
+                value={smsCode}
+                placeholder="验证码"
+                placeholderStyle={`color: ${textColor.assist}`}
+                onInput={(e) => setSmsCode(e.detail.value)}
+              />
+              <Button
+                size="mini"
+                loading={sendingCode}
+                disabled={codeCountdown > 0}
+                onClick={handleSendCode}
+                style={{
+                  margin: 0,
+                  width: '120px',
+                  lineHeight: '44px',
+                  fontSize: `${fontSize.sm}px`,
+                  backgroundColor: codeCountdown > 0 ? '#f0f0f0' : brandColor,
+                  color: codeCountdown > 0 ? textColor.assist : '#fff',
+                  borderRadius: `${radius.md}px`,
+                }}
+              >
+                {codeCountdown > 0 ? `${codeCountdown}s 后重发` : '获取验证码'}
+              </Button>
+            </View>
+          </View>
+        )}
+
         {error ? (
           <Text style={{ display: 'block', marginBottom: `${spacing.sm}px`, fontSize: `${fontSize.sm}px`, color: statusColor.error }}>
             {error}
@@ -180,7 +298,7 @@ export default function LoginPage() {
         ) : null}
         <Button
           loading={submitting}
-          onClick={handleLogin}
+          onClick={mode === 'password' ? handleLogin : handleSmsLogin}
           style={{
             marginTop: `${spacing.sm}px`,
             backgroundColor: brandColor,
