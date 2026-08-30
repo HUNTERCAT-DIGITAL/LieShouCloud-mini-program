@@ -6,5 +6,5 @@ export const genericEdition: EditionConfig = {
   brandName: '物联网云平台',
   slogan: '数字化平台 · 小程序',
   tenantCode: 'default',
-  login: { required: true, mode: 'password' },
+  login: { required: true, mode: 'password', hideTenantInput: true },
 };

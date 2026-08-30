@@ -1,7 +1,8 @@
 /**
  * 登录页（端自身骨架 · 登录态来自 core-web useAuthStore）
- * 租户 + 账号 + 密码 → core-web login（POST /api/auth/login）。
- * UI 对齐 mobile-ui 规范：设计令牌 + 品牌 hero。
+ * 账号 + 密码 → core-web login（POST /api/auth/login）。
+ * 单租户（hideTenantInput）：隐藏租户输入框，默认租户静默使用 edition.tenantCode ?? 'default'。
+ * 背景撞色对齐 mobile-web H5 登录页：上蓝（品牌白字）→ 下灰（表单白卡）。
  */
 import { useState } from 'react';
 import { Button, Input, Text, View } from '@tarojs/components';
@@ -10,24 +11,14 @@ import { useAuthStore } from '@lieshoucloud/core-web';
 
 import { getEdition } from '../../config/editions';
 import { EXTRA_HOME } from '../../config/editions/extra';
-import {
-  bgColor,
-  borderColor,
-  brandColor,
-  cardColor,
-  fontSize,
-  radius,
-  spacing,
-  statusColor,
-  textColor,
-} from '../../styles/tokens';
+import { brandColor, cardColor, fontSize, radius, spacing, statusColor, textColor } from '../../styles/tokens';
 
 const inputStyle = {
   height: '44px',
   padding: `0 ${spacing.md}px`,
   marginBottom: `${spacing.md}px`,
   borderRadius: `${radius.md}px`,
-  border: `1px solid ${borderColor}`,
+  border: '1px solid #e5e5e5',
   backgroundColor: cardColor,
   fontSize: `${fontSize.md}px`,
   color: textColor.main,
@@ -37,7 +28,9 @@ export default function LoginPage() {
   const edition = getEdition();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const login = useAuthStore((s) => s.login);
-  const [tenantCode, setTenantCode] = useState(edition.tenantCode ?? 'default');
+  // 单租户版：隐藏租户输入框，默认租户静默使用（对齐 mobile-web H5）
+  const hideTenantInput = edition.login?.hideTenantInput === true;
+  const [tenantCode] = useState(edition.tenantCode ?? 'default');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -73,45 +66,36 @@ export default function LoginPage() {
     <View
       style={{
         minHeight: '100vh',
-        backgroundColor: bgColor,
-        padding: `${spacing.xxl}px ${spacing.xl}px`,
+        // 撞色：上 60% 品牌蓝（白字品牌）→ 下 40% 页面灰（白卡表单）· 对齐 H5 登录页
+        backgroundImage: 'linear-gradient(160deg, #02429b 0%, #0a6bd8 60%, #f5f6f7 60.1%)',
+        padding: '64px 24px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
       }}
     >
-      {/* 品牌 hero */}
-      <View style={{ textAlign: 'center', padding: `${spacing.xl}px 0 ${spacing.xxl}px` }}>
-        <Text
-          style={{
-            display: 'block',
-            fontSize: '28px',
-            fontWeight: 700,
-            color: brandColor,
-          }}
-        >
+      {/* 品牌区（蓝色区 · 白字） */}
+      <View style={{ textAlign: 'center', marginBottom: '32px' }}>
+        <Text style={{ display: 'block', color: '#fff', fontSize: '28px', fontWeight: 700, lineHeight: 1.4 }}>
           {edition.brandName}
         </Text>
         {edition.slogan ? (
-          <Text
-            style={{
-              display: 'block',
-              marginTop: `${spacing.sm}px`,
-              fontSize: `${fontSize.sm}px`,
-              color: textColor.secondary,
-            }}
-          >
+          <Text style={{ display: 'block', marginTop: `${spacing.sm}px`, color: 'rgba(255,255,255,0.85)', fontSize: `${fontSize.sm}px` }}>
             {edition.slogan}
           </Text>
         ) : null}
       </View>
 
-      {/* 表单 */}
-      <View>
-        <Input
-          style={inputStyle}
-          value={tenantCode}
-          placeholder="租户编码"
-          placeholderStyle={`color: ${textColor.assist}`}
-          onInput={(e) => setTenantCode(e.detail.value)}
-        />
+      {/* 表单卡（灰色区 · 白卡） */}
+      <View
+        style={{
+          width: '100%',
+          backgroundColor: cardColor,
+          borderRadius: `${radius.lg}px`,
+          padding: `${spacing.xl}px`,
+        }}
+      >
+        {/* 单租户（hideTenantInput）：租户输入框隐藏，默认租户静默使用 edition.tenantCode ?? 'default' */}
         <Input
           style={inputStyle}
           value={username}
