@@ -11,14 +11,18 @@ export interface ListCellProps {
   icon?: ReactNode;
   /** 图标底背景色（缺省浅蓝；告警可用状态色浅底） */
   iconBg?: string;
-  title: string;
-  description?: string;
+  /** 标题（支持富文本，如温度染色 / 告警数角标） */
+  title: ReactNode;
+  /** 副行（支持富文本） */
+  description?: ReactNode;
+  /** 淡化（已确认/失效内容降权显示） */
+  dimmed?: boolean;
   /** 右侧插槽（状态徽章 / 数值 / 箭头） */
   right?: ReactNode;
   onClick?: () => void;
 }
 
-export default function ListCell({ icon, iconBg, title, description, right, onClick }: ListCellProps) {
+export default function ListCell({ icon, iconBg, title, description, right, dimmed, onClick }: ListCellProps) {
   return (
     <View
       onClick={onClick}
@@ -44,7 +48,8 @@ export default function ListCell({ icon, iconBg, title, description, right, onCl
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: `${fontSize.xl}px`,
-            backgroundColor: iconBg ?? '#f0f4ff',
+            backgroundColor: iconBg ?? (dimmed ? '#f5f5f5' : '#f0f4ff'),
+            opacity: dimmed ? 0.6 : 1,
             flexShrink: 0,
           }}
         >
@@ -57,7 +62,7 @@ export default function ListCell({ icon, iconBg, title, description, right, onCl
             display: 'block',
             fontSize: `${fontSize.lg}px`,
             fontWeight: 600,
-            color: textColor.main,
+            color: dimmed ? textColor.secondary : textColor.main,
             lineHeight: 1.4,
           }}
           numberOfLines={1}
@@ -70,7 +75,7 @@ export default function ListCell({ icon, iconBg, title, description, right, onCl
               display: 'block',
               marginTop: `${spacing.xxs}px`,
               fontSize: `${fontSize.sm}px`,
-              color: textColor.secondary,
+              color: dimmed ? textColor.assist : textColor.secondary,
               lineHeight: 1.4,
             }}
             numberOfLines={1}
