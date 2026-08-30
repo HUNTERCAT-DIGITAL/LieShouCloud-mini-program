@@ -56,7 +56,9 @@ export default function LoginPage() {
       await login(username.trim(), password, tenantCode.trim() || undefined);
       Taro.reLaunch({ url: EXTRA_HOME ? `/${EXTRA_HOME.replace(/^\//, '')}` : '/pages/home/home' });
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
+      // 防御：错误可能是对象（后端 message 嵌套）→ 提取可读文本，避免显示 [object Object]
+      const raw = err instanceof Error ? err.message : err;
+      setError(typeof raw === 'string' && raw && raw !== '[object Object]' ? raw : String(err));
     } finally {
       setSubmitting(false);
     }
