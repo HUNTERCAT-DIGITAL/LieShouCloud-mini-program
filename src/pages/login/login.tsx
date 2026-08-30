@@ -68,7 +68,7 @@ export default function LoginPage() {
         minHeight: '100vh',
         // 撞色：上 60% 品牌蓝（白字品牌）→ 下 40% 页面灰（白卡表单）· 对齐 H5 登录页
         backgroundImage: 'linear-gradient(160deg, #02429b 0%, #0a6bd8 60%, #f5f6f7 60.1%)',
-        padding: '64px 24px',
+        padding: '64px 32px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
