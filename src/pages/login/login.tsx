@@ -13,6 +13,27 @@ import { getEdition } from '../../config/editions';
 import { EXTRA_HOME } from '../../config/editions/extra';
 import { brandColor, cardColor, fontSize, radius, spacing, statusColor, textColor } from '../../styles/tokens';
 
+/** 记住密码本地存储 key */
+const REMEMBER_KEY = 'dwjk:login:remember';
+
+interface RememberedCredential {
+  username: string;
+  password: string;
+  remember: true;
+}
+
+function loadRemembered(): RememberedCredential | null {
+  try {
+    const raw = Taro.getStorageSync(REMEMBER_KEY);
+    if (raw && typeof raw === 'object' && (raw as RememberedCredential).remember) {
+      return raw as RememberedCredential;
+    }
+  } catch {
+    /* 存储异常忽略 */
+  }
+  return null;
+}
+
 const inputStyle = {
   height: '44px',
   padding: `0 ${spacing.md}px`,
@@ -31,8 +52,11 @@ export default function LoginPage() {
   // 单租户版：隐藏租户输入框，默认租户静默使用（对齐 mobile-web H5）
   const hideTenantInput = edition.login?.hideTenantInput === true;
   const [tenantCode] = useState(edition.tenantCode ?? 'default');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  // 记住密码：勾选后本地存储，下次自动填充
+  const remembered = loadRemembered();
+  const [remember, setRemember] = useState(remembered?.remember ?? false);
+  const [username, setUsername] = useState(remembered?.username ?? '');
+  const [password, setPassword] = useState(remembered?.password ?? '');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -54,6 +78,12 @@ export default function LoginPage() {
     setError('');
     try {
       await login(username.trim(), password, tenantCode.trim() || undefined);
+      // 记住密码：勾选存储 / 未勾选清除
+      if (remember) {
+        Taro.setStorageSync(REMEMBER_KEY, { username: username.trim(), password, remember: true } satisfies RememberedCredential);
+      } else {
+        Taro.removeStorageSync(REMEMBER_KEY);
+      }
       Taro.reLaunch({ url: EXTRA_HOME ? `/${EXTRA_HOME.replace(/^\//, '')}` : '/pages/home/home' });
     } catch (err) {
       // 防御：错误可能是对象（后端 message 嵌套）→ 提取可读文本，避免显示 [object Object]
@@ -113,6 +143,36 @@ export default function LoginPage() {
           placeholderStyle={`color: ${textColor.assist}`}
           onInput={(e) => setPassword(e.detail.value)}
         />
+        {/* 记住密码 + 忘记密码 */}
+        <View style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: `${spacing.sm}px` }}>
+          <View
+            onClick={() => setRemember(!remember)}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            <View
+              style={{
+                width: '20px',
+                height: '20px',
+                borderRadius: `${radius.sm}px`,
+                border: remember ? 'none' : '1px solid #d9d9d9',
+                backgroundColor: remember ? brandColor : '#fff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: `${spacing.xs}px`,
+              }}
+            >
+              {remember ? <Text style={{ color: '#fff', fontSize: '13px', lineHeight: 1 }}>✓</Text> : null}
+            </View>
+            <Text style={{ fontSize: `${fontSize.sm}px`, color: textColor.secondary }}>记住密码</Text>
+          </View>
+          <Text
+            onClick={() => Taro.navigateTo({ url: '/pages/forgot-password/index' })}
+            style={{ fontSize: `${fontSize.sm}px`, color: brandColor }}
+          >
+            忘记密码
+          </Text>
+        </View>
         {error ? (
           <Text style={{ display: 'block', marginBottom: `${spacing.sm}px`, fontSize: `${fontSize.sm}px`, color: statusColor.error }}>
             {error}

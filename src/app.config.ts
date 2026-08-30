@@ -15,6 +15,7 @@ const allPages = [
   'pages/home/home',
   // 客户启动页存在时，登录页保持可路由（首页入口跳转）
   ...(home === DEFAULT_ENTRY ? [] : [DEFAULT_ENTRY]),
+  'pages/forgot-password/index',
   ...(EXTRA_PAGES ?? []),
 ];
 const pages = [...new Set(allPages)];
