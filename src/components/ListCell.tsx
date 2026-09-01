@@ -4,7 +4,7 @@
  */
 import type { ReactNode } from 'react';
 import { Text, View } from '@tarojs/components';
-import { borderColor, fontSize, radius, spacing, textColor } from '../styles/tokens';
+import { borderColor, fontSize, spacing, textColor } from '../styles/tokens';
 
 export interface ListCellProps {
   /** 图标底（emoji / 首字符 / 自定义节点），建议 36px 圆角 */

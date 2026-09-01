@@ -49,8 +49,7 @@ export default function LoginPage() {
   const edition = getEdition();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const login = useAuthStore((s) => s.login);
-  // 单租户版：隐藏租户输入框，默认租户静默使用（对齐 mobile-web H5）
-  const hideTenantInput = edition.login?.hideTenantInput === true;
+  // 单租户版：默认租户静默使用（对齐 mobile-web H5）
   const [tenantCode] = useState(edition.tenantCode ?? 'default');
   // 记住密码：勾选后本地存储，下次自动填充
   const remembered = loadRemembered();
